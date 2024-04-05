@@ -15,11 +15,11 @@ A API da Plataforma Pedagógica Escolar é uma ferramenta desenvolvida para auxi
 
 ## Tecnologias Utilizadas
 
-- Node.js
-- Express.js
-- PostgreSQL
-- Sequelize ORM
-- Docker para containerização
+ <div align="center">
+    <img align="center" alt="Dii-NodeJS" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
+    <img align="center" height="30" width="40" alt="Postgresql" src="https://github.com/devicons/devicon/blob/v2.15.1/icons/postgresql/postgresql-original.svg">
+   <img align="center" height="30" width="40" alt="JavaScript" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
+</div>
 
 ## Como Contribuir
 
