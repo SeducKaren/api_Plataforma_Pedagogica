@@ -39,6 +39,6 @@ Equipe:
 
 Scrum Master: Karen Reis - Linkedin: https://www.linkedin.com/in/reiskaren0228/ - Email: kreisdemenezes@gmail.com
 Desenvolvedora Back-End: Michelle Bessoni - Linkedin: www.linkedin.com/in/MichelleBessoni - Email: bessoni.dev@gmail.com
-Desenvolvedora Back-End: Myllena Araújo - Linkedin: Email: 
+Desenvolvedora Back-End: Myllena Araújo - Linkedin: Email: mylena08@gmail.com
 Desenvolvedor Back-End: Vinicius Oliveira - Linkedin: Email: 
 
