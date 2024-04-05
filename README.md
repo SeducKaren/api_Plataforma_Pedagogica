@@ -35,6 +35,9 @@ Se você deseja contribuir para o desenvolvimento da API da Plataforma Pedagógi
 
 Para mais informações sobre a API da Plataforma Pedagógica Escolar, entre em contato com a equipe de desenvolvimento:
 
-Equipe:
+### Equipe:
 
-Scrum Master: Karen Reis - Linkedin: https://www.linkedin.com/in/reiskaren0228/ - Email: kreisdemenezes@gmail.com Desenvolvedora Back-End: Michelle Bessoni - Linkedin: https://www.linkedin.com/in/MichelleBessoni - Email: bessoni.dev@gmail.com Desenvolvedora Back-End: Myllena Araújo - Linkedin: https://www.linkedin.com/in/mylena-oliveira-68340721a/ - Email: mylena08@gmail.com Desenvolvedor Back-End: Vinicius Oliveira - Linkedin: https://www.linkedin.com/in/vinicius-oliveira-0abb2316a/
+#### Scrum Master: Karen Reis - Linkedin: https://www.linkedin.com/in/reiskaren0228/ - Email: kreisdemenezes@gmail.com .
+#### Desenvolvedora Back-End: Michelle Bessoni - Linkedin: https://www.linkedin.com/in/MichelleBessoni - Email: bessoni.dev@gmail.com 
+#### Desenvolvedora Back-End: Myllena Araújo - Linkedin: https://www.linkedin.com/in/mylena-oliveira-68340721a/ - Email: mylena08@gmail.com 
+#### Desenvolvedor Back-End: Vinicius Oliveira - Linkedin: https://www.linkedin.com/in/vinicius-oliveira-0abb2316a/
