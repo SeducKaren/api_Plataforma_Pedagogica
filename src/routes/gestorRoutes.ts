@@ -1,4 +1,3 @@
-// gestorRoutes.ts
 import express, { Request, Response } from 'express';
 import GestorController from '../controllers/gestorController';
 
