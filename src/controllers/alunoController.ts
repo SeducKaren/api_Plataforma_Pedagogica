@@ -1,146 +1,225 @@
-import { Request, Response } from "express";
-import AlunoModel from "../models/alunoModel";
+import { Pool } from "pg";
 
-class AlunoController {
-  static async getAlunoById(req: Request, res: Response): Promise<void> {
-    const alunoId = req.params.id;
+class AlunoModel {
+  static pool: Pool;
 
-    try {
-      const aluno = await AlunoModel.findById(alunoId);
-      if (aluno) {
-        res.status(200).json(aluno);
-      } else {
-        res.status(404).json({ message: "Aluno not found" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  static initialize() {
+    AlunoModel.pool = new Pool({
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      connectionString: process.env.DATABASE_URL,
+    });
   }
 
-  static async getAlunoByCpf(req: Request, res: Response): Promise<void> {
-    const cpf = req.params.cpf;
+  id: string;
+  nome_completo: string;
+  cpf: string;
+  data_de_nascimento: Date;
+  escola: string;
+  codigo_inep: string;
+  turma: string;
+  serie: string;
+  curso: string;
+  ano: number;
+  turno: string;
+  nome_da_mae: string;
+  nome_do_pai: string;
+  nome_do_responsavel: string;
+  matricula: string;
 
-    try {
-      const aluno = await AlunoModel.findByCpf(cpf);
-      if (aluno) {
-        res.status(200).json(aluno);
-      } else {
-        res.status(404).json({ message: "Aluno not found" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  constructor(data: any) {
+    this.id = data.id || undefined;
+    this.nome_completo = data.nome_completo || undefined;
+    this.cpf = data.cpf || undefined;
+    this.data_de_nascimento = data.data_de_nascimento || undefined;
+    this.escola = data.escola || undefined;
+    this.codigo_inep = data.codigo_inep || undefined;
+    this.turma = data.turma || undefined;
+    this.serie = data.serie || undefined;
+    this.curso = data.curso || undefined;
+    this.ano = data.ano || undefined;
+    this.turno = data.turno || undefined;
+    this.nome_da_mae = data.nome_da_mae || undefined;
+    this.nome_do_pai = data.nome_do_pai || undefined;
+    this.nome_do_responsavel = data.nome_do_responsavel || undefined;
+    this.matricula = data.matricula || undefined;
   }
 
-  static async getAlunosByNome(req: Request, res: Response): Promise<void> {
-    const nome = req.params.nome;
-
-    try {
-      const alunos = await AlunoModel.findByNome(nome);
-      if (alunos.length > 0) {
-        res.status(200).json(alunos);
-      } else {
-        res.status(404).json({ message: "Nenhum aluno encontrado com este nome" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  static async findById(id: string): Promise<AlunoModel | undefined> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM alunos
+      WHERE id = $1
+    `,
+      [id]
+    );
+    return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
   }
 
-  static async getAlunosByEscola(req: Request, res: Response): Promise<void> {
-    const nomeEscola = req.params.nomeEscola;
-
-    try {
-      const alunos = await AlunoModel.findByEscola(nomeEscola);
-      if (alunos.length > 0) {
-        res.status(200).json(alunos);
-      } else {
-        res.status(404).json({ message: "Nenhum aluno encontrado para esta escola" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  static async findByCpf(cpf: string): Promise<AlunoModel | undefined> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM alunos
+      WHERE cpf = $1
+    `,
+      [cpf]
+    );
+    return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
   }
 
-  static async getAlunoByMatricula(req: Request, res: Response): Promise<void> {
-    const matricula = req.params.matricula;
-
-    try {
-      const aluno = await AlunoModel.findByMatricula(matricula);
-      if (aluno) {
-        res.status(200).json(aluno);
-      } else {
-        res.status(404).json({ message: "Aluno not found" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  static async findByCodigoInep(codigoInep: string): Promise<AlunoModel | undefined> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM alunos
+      WHERE codigo_inep = $1
+    `,
+      [codigoInep]
+    );
+    return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
   }
 
-  static async getAllAlunos(req: Request, res: Response): Promise<void> {
-    try {
-      const alunos = await AlunoModel.findAll();
-      res.status(200).json(alunos);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  static async findByNome(nome: string): Promise<AlunoModel[]> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM alunos
+      WHERE nome_completo ILIKE $1
+    `,
+      [`%${nome}%`]
+    );
+    return result.rows.map((data: any) => new AlunoModel(data));
   }
 
-  static async createAluno(req: Request, res: Response): Promise<void> {
-    const alunoData = req.body;
-
-    try {
-      const newAluno = new AlunoModel(alunoData);
-      const savedAluno = await newAluno.save();
-      res.status(201).json(savedAluno);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  static async findByEscola(escola: string): Promise<AlunoModel[]> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM alunos
+      WHERE escola ILIKE $1
+    `,
+      [`%${escola}%`]
+    );
+    return result.rows.map((data: any) => new AlunoModel(data));
   }
 
-  static async updateAluno(req: Request, res: Response): Promise<void> {
-    const alunoId = req.params.id;
-    const updatedAlunoData = req.body;
-
-    try {
-      const existingAluno = await AlunoModel.findById(alunoId);
-
-      if (existingAluno) {
-        const updatedAluno = new AlunoModel({
-          ...existingAluno,
-          ...updatedAlunoData,
-        });
-
-        await updatedAluno.update();
-
-        res.status(200).json(updatedAluno);
-      } else {
-        res.status(404).json({ message: "Aluno not found" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  static async findByMatricula(matricula: string): Promise<AlunoModel | undefined> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM alunos
+      WHERE matricula = $1
+    `,
+      [matricula]
+    );
+    return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
   }
 
-  static async deleteAluno(req: Request, res: Response): Promise<void> {
-    const alunoId = req.params.id;
+  static async findAll(): Promise<AlunoModel[]> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM alunos
+    `
+    );
+    return result.rows.map((data: any) => new AlunoModel(data));
+  }
 
-    try {
-      await AlunoModel.excluirPorId(alunoId);
-      res.status(204).send();
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+  async save(): Promise<AlunoModel> {
+    const result = await AlunoModel.pool.query(
+      `
+      INSERT INTO alunos (
+        nome_completo,
+        cpf,
+        data_de_nascimento,
+        escola,
+        codigo_inep,
+        turma,
+        serie,
+        curso,
+        ano,
+        turno,
+        nome_da_mae,
+        nome_do_pai,
+        nome_do_responsavel,
+        matricula
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      RETURNING *
+    `,
+      [
+        this.nome_completo,
+        this.cpf,
+        this.data_de_nascimento,
+        this.escola,
+        this.codigo_inep,
+        this.turma,
+        this.serie,
+        this.curso,
+        this.ano,
+        this.turno,
+        this.nome_da_mae,
+        this.nome_do_pai,
+        this.nome_do_responsavel,
+        this.matricula,
+      ]
+    );
+    return new AlunoModel(result.rows[0]);
+  }
+
+  async update(): Promise<void> {
+    await AlunoModel.pool.query(
+      `
+      UPDATE alunos
+      SET
+        nome_completo = $1,
+        cpf = $2,
+        data_de_nascimento = $3,
+        escola = $4,
+        codigo_inep = $5,
+        turma = $6,
+        serie = $7,
+        curso = $8,
+        ano = $9,
+        turno = $10,
+        nome_da_mae = $11,
+        nome_do_pai = $12,
+        nome_do_responsavel = $13,
+        matricula = $14
+      WHERE id = $15
+    `,
+      [
+        this.nome_completo,
+        this.cpf,
+        this.data_de_nascimento,
+        this.escola,
+        this.codigo_inep,
+        this.turma,
+        this.serie,
+        this.curso,
+        this.ano,
+        this.turno,
+        this.nome_da_mae,
+        this.nome_do_pai,
+        this.nome_do_responsavel,
+        this.matricula,
+        this.id,
+      ]
+    );
+  }
+
+  static async excluirPorId(id: string): Promise<void> {
+    await this.pool.query("DELETE FROM alunos WHERE id = $1", [id]);
+  }
+
+  static async excluirPorMatricula(matricula: string): Promise<void> {
+    await this.pool.query("DELETE FROM alunos WHERE matricula = $1", [matricula]);
   }
 }
 
-export default AlunoController;
+AlunoModel.initialize();
+
+export default AlunoModel;
