@@ -1,4 +1,3 @@
-// gestorModel.ts
 import { Pool } from 'pg';
 
 class GestorModel {
