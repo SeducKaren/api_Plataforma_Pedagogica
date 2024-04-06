@@ -5,7 +5,6 @@ class CadastroController {
   static async getUsuariosByEscola(req: Request, res: Response): Promise<void> {
     let nomeEscola = req.params.nomeEscola;
 
-    // Se nenhum nome de escola for fornecido, defina-o como uma string vazia para buscar todas as escolas
     if (!nomeEscola) {
       nomeEscola = "";
     }
