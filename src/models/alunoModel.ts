@@ -214,6 +214,10 @@ class AlunoModel {
   static async excluirPorId(id: string): Promise<void> {
     await this.pool.query("DELETE FROM alunos WHERE id = $1", [id]);
   }
+
+  static async excluirPorMatricula(matricula: string): Promise<void> {
+    await this.pool.query("DELETE FROM alunos WHERE matricula = $1", [matricula]);
+  }
 }
 
 AlunoModel.initialize();
