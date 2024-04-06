@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import GestorController from '../controllers/gestorController';
+import GestorController from '../controllers/gestor';
 
 const router = express.Router();
 
