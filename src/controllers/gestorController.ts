@@ -1,3 +1,4 @@
+// gestorController.ts
 import { Request, Response } from 'express';
 import GestorModel from '../models/gestorModel';
 
