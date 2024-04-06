@@ -1,5 +1,6 @@
+// gestorRoutes.ts
 import express, { Request, Response } from 'express';
-import GestorController from '../controllers/gestor';
+import GestorController from '../controllers/gestorController';
 
 const router = express.Router();
 
