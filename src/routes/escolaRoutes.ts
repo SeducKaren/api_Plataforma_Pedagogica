@@ -3,33 +3,33 @@ import EscolaController from "../controllers/escolaController";
 
 const router = express.Router();
 
-// Get all escolas
+// buscar todas as escolas
 router.get("/", async (req: Request, res: Response) => {
   await EscolaController.getAllEscolas(req, res);
 });
 
-// Get escola by Codigo INEP
+// Buscar escola por Codigo INEP
 router.get("/codigoInep/:codigoInep", async (req: Request, res: Response) => {
   await EscolaController.getEscolaByCodigoInep(req, res);
 });
 
-// Create new escola
+// Criar uma nova escola
 router.post("/", async (req: Request, res: Response) => {
   await EscolaController.createEscola(req, res);
 });
 
-// Update escola by Codigo INEP
+// Atualizar escola por Codigo INEP
 router.put("/:codigoInep", async (req: Request, res: Response) => {
   await EscolaController.updateEscola(req, res);
 });
 
-// Delete escola by Codigo INEP
+// Delete escola por Codigo INEP
 router.delete("/:codigoInep", async (req: Request, res: Response) => {
   await EscolaController.deleteEscola(req, res);
 });
 
-// Get escola by name
-router.get("/nomedaescola/:nomeEscola", async (req: Request, res: Response) => {
+// buscar escola por nome
+router.get("/nome/:nomeEscola", async (req: Request, res: Response) => {
   await EscolaController.getEscolaByNome(req, res);
 });
 
