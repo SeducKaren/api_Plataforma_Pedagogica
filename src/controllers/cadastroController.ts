@@ -51,6 +51,18 @@ class CadastroController {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  static async cadastrarUsuario(req: Request, res: Response): Promise<void> {
+    const userData = req.body;
+
+    try {
+      const newUser = await CadastroModel.create(userData);
+      res.status(201).json(newUser);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
 }
 
 export default CadastroController;
