@@ -1,4 +1,3 @@
-// escolaRoutes.ts
 import express, { Request, Response } from "express";
 import EscolaController from "../controllers/escolaController";
 
