@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { EscolaModel } from "../models/escolaModel";
+import EscolaModel from "../models/escolaModel";
 
 class EscolaController {
   static async getEscolaByCodigoInep(req: Request, res: Response): Promise<void> {

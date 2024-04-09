@@ -5,7 +5,6 @@ class CadastroController {
   static async getUsuariosByEscola(req: Request, res: Response): Promise<void> {
     let nomeEscola = req.params.nomeEscola;
 
-    // Se nenhum nome de escola for fornecido, defina-o como uma string vazia para buscar todas as escolas
     if (!nomeEscola) {
       nomeEscola = "";
     }
@@ -47,6 +46,18 @@ class CadastroController {
     try {
       const usuarios = await CadastroModel.getAll();
       res.status(200).json(usuarios);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  static async cadastrarUsuario(req: Request, res: Response): Promise<void> {
+    const userData = req.body;
+
+    try {
+      const novoUsuario = await CadastroModel.create(userData);
+      res.status(201).json(novoUsuario);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });

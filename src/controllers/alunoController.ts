@@ -141,6 +141,18 @@ class AlunoController {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  static async deleteAlunoByMatricula(req: Request, res: Response): Promise<void> {
+    const matricula = req.params.matricula;
+
+    try {
+      await AlunoModel.excluirPorMatricula(matricula);
+      res.status(204).send();
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
 }
 
 export default AlunoController;

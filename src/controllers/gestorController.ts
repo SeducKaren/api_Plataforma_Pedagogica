@@ -1,4 +1,3 @@
-// gestorController.ts
 import { Request, Response } from 'express';
 import GestorModel from '../models/gestorModel';
 
@@ -72,7 +71,7 @@ class GestorController {
   static async createGestor(req: Request, res: Response): Promise<void> {
     try {
       const newGestor = new GestorModel(req.body);
-      const savedGestor = await GestorModel.save(newGestor);
+      const savedGestor = await newGestor.save();
       res.status(201).json(savedGestor);
     } catch (error) {
       console.error('Error creating gestor:', error);

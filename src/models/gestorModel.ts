@@ -1,4 +1,3 @@
-// gestorModel.ts
 import { Pool } from 'pg';
 
 class GestorModel {
@@ -27,6 +26,26 @@ class GestorModel {
     this.telefone = data.telefone || undefined;
     this.celular = data.celular || undefined;
     this.escola = data.escola || undefined;
+  }
+
+  async save(): Promise<GestorModel> {
+    const { nome_completo, cpf, email, funcao, telefone, celular, escola } = this;
+    const query = `
+      INSERT INTO gestores (
+        nome_completo,
+        cpf,
+        email,
+        funcao,
+        telefone,
+        celular,
+        escola
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *
+    `;
+    const values = [nome_completo, cpf, email, funcao, telefone, celular, escola];
+    const result = await GestorModel.pool.query(query, values);
+    return new GestorModel(result.rows[0]);
   }
 
   static async findById(id: string | null, cpf: string | null, nome: string | null): Promise<GestorModel | undefined> {

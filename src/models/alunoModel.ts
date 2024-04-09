@@ -16,8 +16,8 @@ class AlunoModel {
   nome_completo: string;
   cpf: string;
   data_de_nascimento: Date;
+  genero: string;
   escola: string;
-  codigo_inep: string;
   turma: string;
   serie: string;
   curso: string;
@@ -33,8 +33,8 @@ class AlunoModel {
     this.nome_completo = data.nome_completo || undefined;
     this.cpf = data.cpf || undefined;
     this.data_de_nascimento = data.data_de_nascimento || undefined;
+    this.genero = data.genero || undefined;
     this.escola = data.escola || undefined;
-    this.codigo_inep = data.codigo_inep || undefined;
     this.turma = data.turma || undefined;
     this.serie = data.serie || undefined;
     this.curso = data.curso || undefined;
@@ -66,18 +66,6 @@ class AlunoModel {
       WHERE cpf = $1
     `,
       [cpf]
-    );
-    return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
-  }
-
-  static async findByCodigoInep(codigoInep: string): Promise<AlunoModel | undefined> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM alunos
-      WHERE codigo_inep = $1
-    `,
-      [codigoInep]
     );
     return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
   }
@@ -132,12 +120,11 @@ class AlunoModel {
     const result = await AlunoModel.pool.query(
       `
       INSERT INTO alunos (
-        id,
         nome_completo,
         cpf,
         data_de_nascimento,
+        genero,
         escola,
-        codigo_inep,
         turma,
         serie,
         curso,
@@ -148,16 +135,15 @@ class AlunoModel {
         nome_do_responsavel,
         matricula
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
       RETURNING *
     `,
       [
-        this.id,
         this.nome_completo,
         this.cpf,
         this.data_de_nascimento,
+        this.genero,
         this.escola,
-        this.codigo_inep,
         this.turma,
         this.serie,
         this.curso,
@@ -180,8 +166,8 @@ class AlunoModel {
         nome_completo = $1,
         cpf = $2,
         data_de_nascimento = $3,
-        escola = $4,
-        codigo_inep = $5,
+        genero = $4,
+        escola = $5,
         turma = $6,
         serie = $7,
         curso = $8,
@@ -197,8 +183,8 @@ class AlunoModel {
         this.nome_completo,
         this.cpf,
         this.data_de_nascimento,
+        this.genero,
         this.escola,
-        this.codigo_inep,
         this.turma,
         this.serie,
         this.curso,
@@ -215,6 +201,10 @@ class AlunoModel {
 
   static async excluirPorId(id: string): Promise<void> {
     await this.pool.query("DELETE FROM alunos WHERE id = $1", [id]);
+  }
+
+  static async excluirPorMatricula(matricula: string): Promise<void> {
+    await this.pool.query("DELETE FROM alunos WHERE matricula = $1", [matricula]);
   }
 }
 

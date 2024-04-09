@@ -48,4 +48,9 @@ router.delete("/:id", async (req: Request, res: Response) => {
   await AlunoController.deleteAluno(req, res);
 });
 
+// Rota para deletar aluno por matrícula
+router.delete("/matricula/:matricula", async (req: Request, res: Response) => {
+  await AlunoController.deleteAlunoByMatricula(req, res);
+});
+
 export default router;

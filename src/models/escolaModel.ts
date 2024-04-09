@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 
-export class EscolaModel {
+class EscolaModel {
   static pool = new Pool({
     ssl: {
       rejectUnauthorized: false,
@@ -207,6 +207,5 @@ export class EscolaModel {
     return result.rows[0] ? new EscolaModel(result.rows[0]) : undefined;
   }
 }
-
 
 export default EscolaModel;
