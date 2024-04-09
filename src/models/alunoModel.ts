@@ -132,6 +132,7 @@ class AlunoModel {
     const result = await AlunoModel.pool.query(
       `
       INSERT INTO alunos (
+        id,
         nome_completo,
         cpf,
         data_de_nascimento,
@@ -147,10 +148,11 @@ class AlunoModel {
         nome_do_responsavel,
         matricula
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
       RETURNING *
     `,
       [
+        this.id,
         this.nome_completo,
         this.cpf,
         this.data_de_nascimento,
