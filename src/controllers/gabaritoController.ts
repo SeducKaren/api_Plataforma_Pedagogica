@@ -1,74 +1,76 @@
 import { Request, Response } from 'express';
 import Gabarito from '../models/gabaritoModel';
 
-// CREATE - Cria um novo registro
-export const createGabarito = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const gabarito = await Gabarito.create(req.body);
-    res.status(201).json(gabarito);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
-// READ - Retorna todos os registros
-export const getGabaritos = async (_req: Request, res: Response): Promise<void> => {
-  try {
-    const gabaritos = await Gabarito.findAll();
-    res.status(200).json(gabaritos);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// READ - Retorna um único registro por ID
-export const getGabaritoById = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const gabarito = await Gabarito.findByPk(req.params.id);
-    if (!gabarito) {
-      res.status(404).json({ message: 'Gabarito não encontrado' });
-      return;
+class GabaritoController {
+  static async getGabaritoByNome(req: Request, res: Response): Promise<void> {
+    try {
+      const nome = req.params.nome;
+      const gabarito = await Gabarito.findByNome(nome);
+      if (gabarito) {
+        res.status(200).json(gabarito);
+      } else {
+        res.status(404).json({ message: 'Gabarito not found' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-    res.status(200).json(gabarito);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// UPDATE - Atualiza um registro existente por ID
-export const updateGabarito = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const gabarito = await Gabarito.findByPk(req.params.id);
-    if (!gabarito) {
-      res.status(404).json({ message: 'Gabarito não encontrado' });
-      return;
+  static async getGabaritos(_req: Request, res: Response): Promise<void> {
+    try {
+      const gabaritos = await Gabarito.findAll();
+      res.status(200).json(gabaritos);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-    await gabarito.update(req.body);
-    res.status(200).json(gabarito);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// DELETE - Remove um registro existente por ID
-export const deleteGabarito = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const gabarito = await Gabarito.findByPk(req.params.id);
-    if (!gabarito) {
-      res.status(404).json({ message: 'Gabarito não encontrado' });
-      return;
+  static async createGabarito(req: Request, res: Response): Promise<void> {
+    try {
+      const gabarito = new Gabarito(req.body);
+      const savedGabarito = await gabarito.save();
+      res.status(201).json(savedGabarito);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-    await gabarito.destroy();
-    res.status(204).send();
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-export default {
-  createGabarito,
-  getGabaritos,
-  getGabaritoById,
-  updateGabarito,
-  deleteGabarito
-};
+  static async updateGabarito(req: Request, res: Response): Promise<void> {
+    try {
+      const nome = req.params.nome;
+      let gabarito = await Gabarito.findByNome(nome);
+      if (!gabarito) {
+        res.status(404).json({ message: 'Gabarito not found' });
+        return;
+      }
+      gabarito = new Gabarito({ ...gabarito, ...req.body });
+      await gabarito.update();
+      res.status(200).json(gabarito);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
+  static async deleteGabarito(req: Request, res: Response): Promise<void> {
+    try {
+      const nome = req.params.nome;
+      const gabarito = await Gabarito.findByNome(nome);
+      if (!gabarito) {
+        res.status(404).json({ message: 'Gabarito not found' });
+        return;
+      }
+      await gabarito.delete();
+      res.status(204).send();
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+}
+
+export default GabaritoController;
+
