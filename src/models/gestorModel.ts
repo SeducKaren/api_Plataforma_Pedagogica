@@ -181,6 +181,18 @@ class GestorModel {
     return result.rows[0] ? new GestorModel(result.rows[0]) : undefined;
   }
 
+  static async findByMatricula(matricula: string): Promise<GestorModel | undefined> {
+    const result = await this.pool.query(
+      `
+        SELECT *
+        FROM gestores
+        WHERE matricula = $1
+      `,
+      [matricula]
+    );
+    return result.rows[0] ? new GestorModel(result.rows[0]) : undefined;
+  }
+
   static async findByEscola(escolaQuery: string): Promise<GestorModel[]> {
     const result = await this.pool.query(
       `
