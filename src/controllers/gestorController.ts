@@ -58,6 +58,21 @@ class GestorController {
     }
   }
 
+  static async getGestorByMatricula(req: Request, res: Response): Promise<void> {
+    try {
+      const matricula = req.params.matricula;
+      const gestor = await GestorModel.findByMatricula(matricula);
+      if (gestor) {
+        res.status(200).json(gestor);
+      } else {
+        res.status(404).json({ message: 'Gestor not found' });
+      }
+    } catch (error) {
+      console.error('Error getting gestor by matricula:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
   static async getAllGestores(req: Request, res: Response): Promise<void> {
     try {
       const gestores = await GestorModel.findAll();
