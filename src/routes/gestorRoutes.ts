@@ -39,4 +39,12 @@ router.delete('/:id', async (req, res) => {
   await GestorController.deleteGestor(req, res);
 });
 
+router.delete('/cpf/:cpf', async (req, res) => {
+  await GestorController.deleteGestorByCpf(req, res);
+});
+
+router.delete('/matricula/:matricula', async (req, res) => {
+  await GestorController.deleteGestorByMatricula(req, res);
+});
+
 export default router;
