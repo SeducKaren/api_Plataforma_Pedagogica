@@ -30,6 +30,7 @@ class EscolaModel {
   autorizacao: string;
   anos_letivos: string;
   secretario_escolar: string;
+  quantidades_de_aluno: number | undefined; // Adicionando a nova propriedade
 
   constructor(data: any) {
     this.codigo_inep = data.codigo_inep || undefined;
@@ -54,6 +55,7 @@ class EscolaModel {
     this.autorizacao = data.autorizacao || undefined;
     this.anos_letivos = data.anos_letivos || undefined;
     this.secretario_escolar = data.secretario_escolar || undefined;
+    this.quantidades_de_aluno = data.quantidades_de_aluno || undefined; // Adicionando a nova propriedade
   }
 
   static async findByCodigoInep(codigoInep: string): Promise<EscolaModel | undefined> {
@@ -103,9 +105,10 @@ class EscolaModel {
         serie,
         autorizacao,
         anos_letivos,
-        secretario_escolar
+        secretario_escolar,
+        quantidades_de_aluno
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
       RETURNING *
     `,
       [
@@ -131,6 +134,7 @@ class EscolaModel {
         this.autorizacao,
         this.anos_letivos,
         this.secretario_escolar,
+        this.quantidades_de_aluno, // Adicionando a nova propriedade
       ]
     );
     return new EscolaModel(result.rows[0]);
@@ -161,8 +165,9 @@ class EscolaModel {
         serie = $18,
         autorizacao = $19,
         anos_letivos = $20,
-        secretario_escolar = $21
-      WHERE codigo_inep = $22
+        secretario_escolar = $21,
+        quantidades_de_aluno = $22
+      WHERE codigo_inep = $23
     `,
       [
         this.escola,
@@ -186,6 +191,7 @@ class EscolaModel {
         this.autorizacao,
         this.anos_letivos,
         this.secretario_escolar,
+        this.quantidades_de_aluno, // Adicionando a nova propriedade
         this.codigo_inep,
       ]
     );
