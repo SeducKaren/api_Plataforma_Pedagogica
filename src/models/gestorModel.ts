@@ -16,6 +16,7 @@ class GestorModel {
   telefone?: string;
   celular?: string;
   escola?: string;
+  matricula?: string;
 
   constructor(data: any = {}) {
     this.id = data.id || undefined;
@@ -26,10 +27,11 @@ class GestorModel {
     this.telefone = data.telefone || undefined;
     this.celular = data.celular || undefined;
     this.escola = data.escola || undefined;
+    this.matricula = data.matricula || undefined;
   }
 
   async save(): Promise<GestorModel> {
-    const { nome_completo, cpf, email, funcao, telefone, celular, escola } = this;
+    const { nome_completo, cpf, email, funcao, telefone, celular, escola, matricula } = this;
     const query = `
       INSERT INTO gestores (
         nome_completo,
@@ -38,12 +40,13 @@ class GestorModel {
         funcao,
         telefone,
         celular,
-        escola
+        escola,
+        matricula
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `;
-    const values = [nome_completo, cpf, email, funcao, telefone, celular, escola];
+    const values = [nome_completo, cpf, email, funcao, telefone, celular, escola, matricula];
     const result = await GestorModel.pool.query(query, values);
     return new GestorModel(result.rows[0]);
   }
@@ -94,9 +97,10 @@ class GestorModel {
           funcao,
           telefone,
           celular,
-          escola
+          escola,
+          matricula
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       `,
       [
         gestor.id,
@@ -106,7 +110,8 @@ class GestorModel {
         gestor.funcao,
         gestor.telefone,
         gestor.celular,
-        gestor.escola
+        gestor.escola,
+        gestor.matricula,
       ]
     );
     return gestor;
@@ -123,8 +128,9 @@ class GestorModel {
           funcao = $4,
           telefone = $5,
           celular = $6,
-          escola = $7
-        WHERE id = $8
+          escola = $7,
+          matricula = $8
+        WHERE id = $9
       `,
       [
         gestor.nome_completo,
@@ -134,6 +140,7 @@ class GestorModel {
         gestor.telefone,
         gestor.celular,
         gestor.escola,
+        gestor.matricula,
         gestor.id,
       ]
     );
