@@ -30,7 +30,7 @@ class EscolaModel {
   autorizacao: string;
   anos_letivos: string;
   secretario_escolar: string;
-  quantidades_de_aluno: number | undefined; // Adicionando a nova propriedade
+  quantidades_de_aluno: number | undefined;
 
   constructor(data: any) {
     this.codigo_inep = data.codigo_inep || undefined;
@@ -55,7 +55,7 @@ class EscolaModel {
     this.autorizacao = data.autorizacao || undefined;
     this.anos_letivos = data.anos_letivos || undefined;
     this.secretario_escolar = data.secretario_escolar || undefined;
-    this.quantidades_de_aluno = data.quantidades_de_aluno || undefined; // Adicionando a nova propriedade
+    this.quantidades_de_aluno = data.quantidades_de_aluno || undefined;
   }
 
   static async findByCodigoInep(codigoInep: string): Promise<EscolaModel | undefined> {
@@ -134,7 +134,7 @@ class EscolaModel {
         this.autorizacao,
         this.anos_letivos,
         this.secretario_escolar,
-        this.quantidades_de_aluno, // Adicionando a nova propriedade
+        this.quantidades_de_aluno,
       ]
     );
     return new EscolaModel(result.rows[0]);
@@ -191,7 +191,7 @@ class EscolaModel {
         this.autorizacao,
         this.anos_letivos,
         this.secretario_escolar,
-        this.quantidades_de_aluno, // Adicionando a nova propriedade
+        this.quantidades_de_aluno,
         this.codigo_inep,
       ]
     );
