@@ -23,6 +23,10 @@ router.get('/escola/:escola', async (req, res) => {
   await GestorController.getGestorByEscola(req, res);
 });
 
+router.get('/matricula/:matricula', async (req, res) => {
+  await GestorController.getGestorByMatricula(req, res);
+});
+
 router.post('/', async (req, res) => {
   await GestorController.createGestor(req, res);
 });
