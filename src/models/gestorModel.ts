@@ -157,6 +157,26 @@ class GestorModel {
     );
   }
 
+  static async excluirPorCpf(cpf: string): Promise<void> {
+    await this.pool.query(
+      `
+        DELETE FROM gestores
+        WHERE cpf = $1
+      `,
+      [cpf]
+    );
+  }
+
+  static async excluirPorMatricula(matricula: string): Promise<void> {
+    await this.pool.query(
+      `
+        DELETE FROM gestores
+        WHERE matricula = $1
+      `,
+      [matricula]
+    );
+  }
+
   static async findByCpf(cpf: string): Promise<GestorModel | undefined> {
     const result = await this.pool.query(
       `
@@ -203,26 +223,6 @@ class GestorModel {
       [`%${escolaQuery}%`]
     );
     return result.rows.map((data: any) => new GestorModel(data));
-  }
-
-  static async deleteByCpf(cpf: string): Promise<void> {
-    await this.pool.query(
-      `
-        DELETE FROM gestores
-        WHERE cpf = $1
-      `,
-      [cpf]
-    );
-  }
-
-  static async deleteByNome(nome: string): Promise<void> {
-    await this.pool.query(
-      `
-        DELETE FROM gestores
-        WHERE nome_completo ILIKE $1
-      `,
-      [`%${nome}%`]
-    );
   }
 }
 
