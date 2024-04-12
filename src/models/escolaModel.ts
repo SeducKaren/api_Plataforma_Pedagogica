@@ -17,19 +17,14 @@ class EscolaModel {
   endereco: string;
   numero: string;
   complemento: string;
-  centro: string;
   municipio: string;
   estado: string;
   telefone1: string;
   telefone2: string;
   email: string;
   ano_do_aluno: string;
-  instituicao: string;
   curso: string;
   serie: string;
-  autorizacao: string;
-  anos_letivos: string;
-  secretario_escolar: string;
   quantidades_de_aluno: number | undefined;
 
   constructor(data: any) {
@@ -42,19 +37,14 @@ class EscolaModel {
     this.endereco = data.endereco || undefined;
     this.numero = data.numero || undefined;
     this.complemento = data.complemento || undefined;
-    this.centro = data.centro || undefined;
     this.municipio = data.municipio || undefined;
     this.estado = data.estado || undefined;
     this.telefone1 = data.telefone1 || undefined;
     this.telefone2 = data.telefone2 || undefined;
     this.email = data.email || undefined;
     this.ano_do_aluno = data.ano_do_aluno || undefined;
-    this.instituicao = data.instituicao || undefined;
     this.curso = data.curso || undefined;
     this.serie = data.serie || undefined;
-    this.autorizacao = data.autorizacao || undefined;
-    this.anos_letivos = data.anos_letivos || undefined;
-    this.secretario_escolar = data.secretario_escolar || undefined;
     this.quantidades_de_aluno = data.quantidades_de_aluno || undefined;
   }
 
@@ -93,22 +83,17 @@ class EscolaModel {
         endereco,
         numero,
         complemento,
-        centro,
         municipio,
         estado,
         telefone1,
         telefone2,
         email,
         ano_do_aluno,
-        instituicao,
         curso,
         serie,
-        autorizacao,
-        anos_letivos,
-        secretario_escolar,
         quantidades_de_aluno
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
       RETURNING *
     `,
       [
@@ -121,19 +106,14 @@ class EscolaModel {
         this.endereco,
         this.numero,
         this.complemento,
-        this.centro,
         this.municipio,
         this.estado,
         this.telefone1,
         this.telefone2,
         this.email,
         this.ano_do_aluno,
-        this.instituicao,
         this.curso,
         this.serie,
-        this.autorizacao,
-        this.anos_letivos,
-        this.secretario_escolar,
         this.quantidades_de_aluno,
       ]
     );
@@ -153,21 +133,16 @@ class EscolaModel {
         endereco = $6,
         numero = $7,
         complemento = $8,
-        centro = $9,
-        municipio = $10,
-        estado = $11,
-        telefone1 = $12,
-        telefone2 = $13,
-        email = $14,
-        ano_do_aluno = $15,
-        instituicao = $16,
-        curso = $17,
-        serie = $18,
-        autorizacao = $19,
-        anos_letivos = $20,
-        secretario_escolar = $21,
-        quantidades_de_aluno = $22
-      WHERE codigo_inep = $23
+        municipio = $9,
+        estado = $10,
+        telefone1 = $11,
+        telefone2 = $12,
+        email = $13,
+        ano_do_aluno = $14,
+        curso = $15,
+        serie = $16,
+        quantidades_de_aluno = $17
+      WHERE codigo_inep = $18
     `,
       [
         this.escola,
@@ -178,19 +153,14 @@ class EscolaModel {
         this.endereco,
         this.numero,
         this.complemento,
-        this.centro,
         this.municipio,
         this.estado,
         this.telefone1,
         this.telefone2,
         this.email,
         this.ano_do_aluno,
-        this.instituicao,
         this.curso,
         this.serie,
-        this.autorizacao,
-        this.anos_letivos,
-        this.secretario_escolar,
         this.quantidades_de_aluno,
         this.codigo_inep,
       ]
