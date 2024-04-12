@@ -1,4 +1,5 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import { Request, Response } from "express";
 import EscolaController from "../controllers/escolaController";
 
 const router = express.Router();
