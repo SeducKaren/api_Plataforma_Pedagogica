@@ -1,41 +1,35 @@
-import express from "express";
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import EscolaController from "../controllers/escolaController";
 
 const router = express.Router();
 
-// Rota para buscar todas as escolas
+// Get all escolas
 router.get("/", async (req: Request, res: Response) => {
   await EscolaController.getAllEscolas(req, res);
 });
 
-// Rota para buscar uma escola pelo seu código INEP
+// Get escola by Codigo INEP
 router.get("/codigoInep/:codigoInep", async (req: Request, res: Response) => {
   await EscolaController.getEscolaByCodigoInep(req, res);
 });
 
-// Rota para cadastrar uma nova escola
-router.post("/api/escola", async (req: Request, res: Response) => {
-  try {
-    await EscolaController.createEscola(req, res);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
+// Create new escola
+router.post("/", async (req: Request, res: Response) => {
+  await EscolaController.createEscola(req, res);
 });
 
-// Rota para atualizar uma escola pelo seu código INEP
+// Update escola by Codigo INEP
 router.put("/:codigoInep", async (req: Request, res: Response) => {
   await EscolaController.updateEscola(req, res);
 });
 
-// Rota para deletar uma escola pelo seu código INEP
+// Delete escola by Codigo INEP
 router.delete("/:codigoInep", async (req: Request, res: Response) => {
   await EscolaController.deleteEscola(req, res);
 });
 
-// Rota para buscar uma escola pelo seu nome
-router.get("/nome/:nomeEscola", async (req: Request, res: Response) => {
+// Get escola by name
+router.get("/nomedaescola/:nomeEscola", async (req: Request, res: Response) => {
   await EscolaController.getEscolaByNome(req, res);
 });
 
