@@ -1,4 +1,3 @@
-// escolaController.ts
 import { Request, Response } from "express";
 import EscolaModel from "../models/escolaModel";
 
