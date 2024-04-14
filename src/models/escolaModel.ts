@@ -8,10 +8,10 @@ class EscolaModel {
     connectionString: process.env.DATABASE_URL,
   });
 
-  codigo_inep: string;
+  codigoInep: string;
   escola: string;
   sigla: string;
-  zona_de_localidade: string;
+  zonaDeLocalidade: string;
   cnpj: string;
   cep: string;
   endereco: string;
@@ -22,16 +22,12 @@ class EscolaModel {
   telefone1: string;
   telefone2: string;
   email: string;
-  ano_do_aluno: string;
-  curso: string;
-  serie: string;
-  quantidades_de_aluno: number | undefined;
 
   constructor(data: any) {
-    this.codigo_inep = data.codigo_inep || undefined;
+    this.codigoInep = data.codigoInep || undefined;
     this.escola = data.escola || undefined;
     this.sigla = data.sigla || undefined;
-    this.zona_de_localidade = data.zona_de_localidade || undefined;
+    this.zonaDeLocalidade = data.zonaDeLocalidade || undefined;
     this.cnpj = data.cnpj || undefined;
     this.cep = data.cep || undefined;
     this.endereco = data.endereco || undefined;
@@ -42,22 +38,6 @@ class EscolaModel {
     this.telefone1 = data.telefone1 || undefined;
     this.telefone2 = data.telefone2 || undefined;
     this.email = data.email || undefined;
-    this.ano_do_aluno = data.ano_do_aluno || undefined;
-    this.curso = data.curso || undefined;
-    this.serie = data.serie || undefined;
-    this.quantidades_de_aluno = data.quantidades_de_aluno || undefined;
-  }
-
-  static async findByCodigoInep(codigoInep: string): Promise<EscolaModel | undefined> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM escola
-      WHERE codigo_inep = $1
-    `,
-      [codigoInep]
-    );
-    return result.rows[0] ? new EscolaModel(result.rows[0]) : undefined;
   }
 
   static async findAll(): Promise<EscolaModel[]> {
@@ -70,117 +50,88 @@ class EscolaModel {
     return result.rows.map((data: any) => new EscolaModel(data));
   }
 
-  async save(): Promise<EscolaModel> {
-    const result = await EscolaModel.pool.query(
-      `
-      INSERT INTO escola (
-        codigo_inep,
-        escola,
-        sigla,
-        zona_de_localidade,
-        cnpj,
-        cep,
-        endereco,
-        numero,
-        complemento,
-        municipio,
-        estado,
-        telefone1,
-        telefone2,
-        email,
-        ano_do_aluno,
-        curso,
-        serie,
-        quantidades_de_aluno
-      )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
-      RETURNING *
-    `,
-      [
-        this.codigo_inep,
-        this.escola,
-        this.sigla,
-        this.zona_de_localidade,
-        this.cnpj,
-        this.cep,
-        this.endereco,
-        this.numero,
-        this.complemento,
-        this.municipio,
-        this.estado,
-        this.telefone1,
-        this.telefone2,
-        this.email,
-        this.ano_do_aluno,
-        this.curso,
-        this.serie,
-        this.quantidades_de_aluno,
-      ]
-    );
-    return new EscolaModel(result.rows[0]);
-  }
-
-  async update(): Promise<void> {
-    await EscolaModel.pool.query(
-      `
-      UPDATE escola
-      SET
-        escola = $1,
-        sigla = $2,
-        zona_de_localidade = $3,
-        cnpj = $4,
-        cep = $5,
-        endereco = $6,
-        numero = $7,
-        complemento = $8,
-        municipio = $9,
-        estado = $10,
-        telefone1 = $11,
-        telefone2 = $12,
-        email = $13,
-        ano_do_aluno = $14,
-        curso = $15,
-        serie = $16,
-        quantidades_de_aluno = $17
-      WHERE codigo_inep = $18
-    `,
-      [
-        this.escola,
-        this.sigla,
-        this.zona_de_localidade,
-        this.cnpj,
-        this.cep,
-        this.endereco,
-        this.numero,
-        this.complemento,
-        this.municipio,
-        this.estado,
-        this.telefone1,
-        this.telefone2,
-        this.email,
-        this.ano_do_aluno,
-        this.curso,
-        this.serie,
-        this.quantidades_de_aluno,
-        this.codigo_inep,
-      ]
-    );
-  }
-  
-  static async deleteByCodigoInep(codigoInep: string): Promise<void> {
-    await this.pool.query("DELETE FROM escola WHERE codigo_inep = $1", [codigoInep]);
-  }
-
-  static async findByNome(nomeEscola: string): Promise<EscolaModel | undefined> {
+  static async findByCodigoInep(codigoInep: string): Promise<EscolaModel[]> {
     const result = await this.pool.query(
-        `
-        SELECT *
-        FROM escola
-        WHERE escola ILIKE $1
-        `,
-        [`%${nomeEscola}%`]
+      `
+      SELECT *
+      FROM escola
+      WHERE codigo_inep = $1
+    `,
+      [codigoInep]
     );
-    return result.rows[0] ? new EscolaModel(result.rows[0]) : undefined;
+    return result.rows.map((data: any) => new EscolaModel(data));
+  }
+
+  static async findByNome(nome: string): Promise<EscolaModel[]> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM escola
+      WHERE escola ILIKE $1
+    `,
+      [`%${nome}%`]
+    );
+    return result.rows.map((data: any) => new EscolaModel(data));
+  }
+
+  static async create(escolaData: any): Promise<EscolaModel> {
+    const { codigoInep, escola, sigla, zonaDeLocalidade, cnpj, cep, endereco, numero, complemento, municipio, estado, telefone1, telefone2, email } = escolaData;
+    const query = `
+      INSERT INTO escola (codigo_inep, escola, sigla, zona_de_localidade, cnpj, cep, endereco, numero, complemento, municipio, estado, telefone1, telefone2, email)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      RETURNING *
+    `;
+    const values = [codigoInep, escola, sigla, zonaDeLocalidade, cnpj, cep, endereco, numero, complemento, municipio, estado, telefone1, telefone2, email];
+
+    try {
+      const result = await this.pool.query(query, values);
+      return new EscolaModel(result.rows[0]);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Erro ao cadastrar escola: ${error.message}`);
+      } else {
+        throw new Error("Erro desconhecido ao cadastrar escola");
+      }
+    }
+  }
+
+  static async updateByCodigoInep(codigoInep: string, newData: any): Promise<EscolaModel> {
+    const { escola, sigla, zonaDeLocalidade, cnpj, cep, endereco, numero, complemento, municipio, estado, telefone1, telefone2, email } = newData;
+    const query = `
+      UPDATE escola
+      SET escola = $1, sigla = $2, zona_de_localidade = $3, cnpj = $4, cep = $5, endereco = $6, numero = $7, complemento = $8, municipio = $9, estado = $10, telefone1 = $11, telefone2 = $12, email = $13
+      WHERE codigo_inep = $14
+      RETURNING *
+    `;
+    const values = [escola, sigla, zonaDeLocalidade, cnpj, cep, endereco, numero, complemento, municipio, estado, telefone1, telefone2, email, codigoInep];
+
+    try {
+      const result = await this.pool.query(query, values);
+      return new EscolaModel(result.rows[0]);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Erro ao atualizar escola: ${error.message}`);
+      } else {
+        throw new Error("Erro desconhecido ao atualizar escola");
+      }
+    }
+  }
+
+  static async deleteByCodigoInep(codigoInep: string): Promise<void> {
+    const query = `
+      DELETE FROM escola
+      WHERE codigo_inep = $1
+    `;
+
+    try {
+      await this.pool.query(query, [codigoInep]);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Erro ao deletar escola: ${error.message}`);
+      } else {
+        throw new Error("Erro desconhecido ao deletar escola");
+      }
+    }
   }
 }
 
