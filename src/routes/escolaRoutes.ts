@@ -15,7 +15,7 @@ router.get("/codigoInep/:codigoInep", async (req: Request, res: Response) => {
 });
 
 // Rota para cadastrar uma nova escola
-router.post("/escola", async (req: Request, res: Response) => {
+router.post("/api/escola", async (req: Request, res: Response) => {
   try {
     await EscolaController.createEscola(req, res);
   } catch (error) {
