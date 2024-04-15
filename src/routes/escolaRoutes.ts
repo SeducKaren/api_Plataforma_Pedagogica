@@ -5,32 +5,32 @@ const router = express.Router();
 
 // Get all escolas
 router.get("/", async (req: Request, res: Response) => {
-  await EscolaController.getAllEscolas(req, res);
+  await EscolaController.findAll(req, res);
 });
 
 // Get escola by Codigo INEP
 router.get("/codigoInep/:codigoInep", async (req: Request, res: Response) => {
-  await EscolaController.getEscolaByCodigoInep(req, res);
+  await EscolaController.findByCodigoInep(req, res);
 });
 
 // Create new escola
 router.post("/", async (req: Request, res: Response) => {
-  await EscolaController.cadastrarEscola(req, res);
+  await EscolaController.save(req, res);
 });
 
 // Update escola by Codigo INEP
 router.put("/:codigoInep", async (req: Request, res: Response) => {
-  await EscolaController.atualizarEscola(req, res);
+  await EscolaController.updateByCodigoInep(req, res);
 });
 
 // Delete escola by Codigo INEP
 router.delete("/:codigoInep", async (req: Request, res: Response) => {
-  await EscolaController.deletarEscola(req, res);
+  await EscolaController.deleteByCodigoInep(req, res);
 });
 
 // Get escola by name
 router.get("/nome/:nomeEscola", async (req: Request, res: Response) => {
-  await EscolaController.getEscolaByNome(req, res);
+  await EscolaController.findByNome(req, res);
 });
 
 export default router;
