@@ -29,7 +29,7 @@ router.delete("/:codigoInep", async (req: Request, res: Response) => {
 });
 
 // Get escola by name
-router.get("/nomedaescola/:nomeEscola", async (req: Request, res: Response) => {
+router.get("/nome/:nomeEscola", async (req: Request, res: Response) => {
   await EscolaController.getEscolaByNome(req, res);
 });
 
