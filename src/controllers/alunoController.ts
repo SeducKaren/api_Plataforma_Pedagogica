@@ -101,18 +101,7 @@ class AlunoController {
       res.status(201).json(savedAluno);
     } catch (error) {
       console.error(error);
-
-      if (error instanceof Error) {
-        if (error.message.includes("validation")) {
-          res.status(400).json({ message: "Erro de validação: " + error.message });
-        } else if (error.message.includes("duplicate key value")) {
-          res.status(409).json({ message: "Conflito de dados: Já existe um aluno com esses dados" });
-        } else {
-          res.status(500).json({ message: "Erro ao criar aluno: " + error.message });
-        }
-      } else {
-        res.status(500).json({ message: "Erro desconhecido ao criar aluno" });
-      }
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
