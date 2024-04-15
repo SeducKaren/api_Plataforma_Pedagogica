@@ -120,7 +120,7 @@ class EscolaModel {
       throw error;
     }
   }
-
+  
   async update(): Promise<void> {
     try {
       await EscolaModel.pool.query(
