@@ -182,7 +182,12 @@ class EscolaModel {
 
   static async findByNome(nome: string): Promise<EscolaModel | undefined> {
     try {
-      const result = await this.pool.query("SELECT * FROM escola WHERE escola = $1", [nome]);
+      // Certifique-se de que o parâmetro esteja em minúsculas para corresponder ao banco de dados
+      const nomeLowercase = nome.toLowerCase();
+      
+      // Use ILIKE para uma correspondência de caso insensitivo
+      const result = await this.pool.query("SELECT * FROM escola WHERE LOWER(escola) LIKE $1", [`%${nomeLowercase}%`]);
+      
       return result.rows[0] ? new EscolaModel(result.rows[0]) : undefined;
     } catch (error) {
       console.error("Erro ao buscar escola por nome:", error);
