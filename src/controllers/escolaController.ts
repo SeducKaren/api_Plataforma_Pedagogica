@@ -69,8 +69,8 @@ class EscolaController {
 
   static async findByNome(req: Request, res: Response): Promise<void> {
     try {
-      const { nome } = req.params;
-      const escola = await EscolaModel.findByNome(nome);
+      const { nomeEscola } = req.params;
+      const escola = await EscolaModel.findByNome(nomeEscola);
       if (escola) {
         res.status(200).json(escola);
       } else {
