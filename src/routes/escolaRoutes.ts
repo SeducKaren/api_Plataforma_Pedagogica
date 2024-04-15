@@ -17,7 +17,7 @@ router.get("/codigoInep/:codigoInep", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
   try {
     // Chame o método save de EscolaController para criar uma nova escola
-    const novaEscola = await EscolaController.save(req.body);
+    const novaEscola = await EscolaController.save(req, res);
     res.status(201).json(novaEscola); // Retorne a nova escola criada
   } catch (error) {
     console.error("Erro ao salvar nova escola:", error);
