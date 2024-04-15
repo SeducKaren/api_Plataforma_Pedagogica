@@ -1,36 +1,34 @@
-import express, { Request, Response } from "express";
-import EscolaController from "../controllers/escolaController";
+import express from 'express';
+import EscolaController from '../controllers/escolaController';
 
 const router = express.Router();
 
-// Get all escolas
-router.get("/", async (req: Request, res: Response) => {
+router.get('/', async (req, res) => {
   await EscolaController.getAllEscolas(req, res);
 });
 
-// Get escola by Codigo INEP
-router.get("/codigoInep/:codigoInep", async (req: Request, res: Response) => {
+router.get('/nome/:nome', async (req, res) => {
+  await EscolaController.getEscolaByNome(req, res);
+});
+
+router.get('/codigoinep/:codigoInep', async (req, res) => {
   await EscolaController.getEscolaByCodigoInep(req, res);
 });
 
-// Create new escola
-router.post("/", async (req: Request, res: Response) => {
+router.post('/', async (req, res) => {
   await EscolaController.createEscola(req, res);
 });
 
-// Update escola by Codigo INEP
-router.put("/:codigoInep", async (req: Request, res: Response) => {
+router.put('/:id', async (req, res) => {
   await EscolaController.updateEscola(req, res);
 });
 
-// Delete escola by Codigo INEP
-router.delete("/:codigoInep", async (req: Request, res: Response) => {
+router.delete('/:id', async (req, res) => {
   await EscolaController.deleteEscola(req, res);
 });
 
-// Get escola by name
-router.get("/nomedaescola/:nomeEscola", async (req: Request, res: Response) => {
-  await EscolaController.getEscolaByNome(req, res);
+router.delete('/codigoinep/:codigoInep', async (req, res) => {
+  await EscolaController.deleteEscolaByCodigoInep(req, res);
 });
 
 export default router;
