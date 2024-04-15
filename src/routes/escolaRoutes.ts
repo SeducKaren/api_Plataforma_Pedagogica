@@ -7,11 +7,15 @@ router.get('/', async (req, res) => {
   await EscolaController.getAllEscolas(req, res);
 });
 
+router.get('/:id', async (req, res) => {
+  await EscolaController.getEscolaById(req, res);
+});
+
 router.get('/nome/:nome', async (req, res) => {
   await EscolaController.getEscolaByNome(req, res);
 });
 
-router.get('/codigoinep/:codigoInep', async (req, res) => {
+router.get('/codigoInep/:codigoInep', async (req, res) => {
   await EscolaController.getEscolaByCodigoInep(req, res);
 });
 
@@ -27,7 +31,7 @@ router.delete('/:id', async (req, res) => {
   await EscolaController.deleteEscola(req, res);
 });
 
-router.delete('/codigoinep/:codigoInep', async (req, res) => {
+router.delete('/codigoInep/:codigoInep', async (req, res) => {
   await EscolaController.deleteEscolaByCodigoInep(req, res);
 });
 
