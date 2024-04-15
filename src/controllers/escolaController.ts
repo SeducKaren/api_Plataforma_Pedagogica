@@ -34,10 +34,10 @@ class EscolaController {
       res.status(201).json(escolaSalva);
     } catch (error) {
       console.error("Erro interno do servidor ao criar a escola:", error);
-      res.status(500).json({ message: "Erro interno do servidor." });
+      res.status(500).json({ message: "Erro interno do servidor ao criar a escola.", error });
     }
-  }  
-
+  }
+  
   static async updateByCodigoInep(req: Request, res: Response): Promise<void> {
     try {
       const { codigoInep } = req.params;
