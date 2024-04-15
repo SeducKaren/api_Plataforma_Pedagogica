@@ -51,172 +51,178 @@ class AlunoModel {
   }
 
   static async findById(id: string): Promise<AlunoModel | undefined> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM alunos
-      WHERE id = $1
-    `,
-      [id]
-    );
-    return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
+    try {
+      const result = await this.pool.query("SELECT * FROM alunos WHERE id = $1", [id]);
+      return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
+    } catch (error) {
+      console.error("Erro ao buscar aluno por ID:", error);
+      throw error;
+    }
   }
 
   static async findByCpf(cpf: string): Promise<AlunoModel | undefined> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM alunos
-      WHERE cpf = $1
-    `,
-      [cpf]
-    );
-    return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
+    try {
+      const result = await this.pool.query("SELECT * FROM alunos WHERE cpf = $1", [cpf]);
+      return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
+    } catch (error) {
+      console.error("Erro ao buscar aluno por CPF:", error);
+      throw error;
+    }
   }
 
   static async findByNome(nome: string): Promise<AlunoModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM alunos
-      WHERE nome_completo ILIKE $1
-    `,
-      [`%${nome}%`]
-    );
-    return result.rows.map((data: any) => new AlunoModel(data));
+    try {
+      const result = await this.pool.query("SELECT * FROM alunos WHERE nome_completo ILIKE $1", [`%${nome}%`]);
+      return result.rows.map((data: any) => new AlunoModel(data));
+    } catch (error) {
+      console.error("Erro ao buscar aluno por nome:", error);
+      throw error;
+    }
   }
 
   static async findByEscola(escola: string): Promise<AlunoModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM alunos
-      WHERE escola ILIKE $1
-    `,
-      [`%${escola}%`]
-    );
-    return result.rows.map((data: any) => new AlunoModel(data));
+    try {
+      const result = await this.pool.query("SELECT * FROM alunos WHERE escola ILIKE $1", [`%${escola}%`]);
+      return result.rows.map((data: any) => new AlunoModel(data));
+    } catch (error) {
+      console.error("Erro ao buscar aluno por escola:", error);
+      throw error;
+    }
   }
 
   static async findByMatricula(matricula: string): Promise<AlunoModel | undefined> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM alunos
-      WHERE matricula = $1
-    `,
-      [matricula]
-    );
-    return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
+    try {
+      const result = await this.pool.query("SELECT * FROM alunos WHERE matricula = $1", [matricula]);
+      return result.rows[0] ? new AlunoModel(result.rows[0]) : undefined;
+    } catch (error) {
+      console.error("Erro ao buscar aluno por matrícula:", error);
+      throw error;
+    }
   }
 
   static async findAll(): Promise<AlunoModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM alunos
-    `
-    );
-    return result.rows.map((data: any) => new AlunoModel(data));
+    try {
+      const result = await this.pool.query("SELECT * FROM alunos");
+      return result.rows.map((data: any) => new AlunoModel(data));
+    } catch (error) {
+      console.error("Erro ao buscar todos os alunos:", error);
+      throw error;
+    }
   }
 
   async save(): Promise<AlunoModel> {
-    const result = await AlunoModel.pool.query(
-      `
-      INSERT INTO alunos (
-        nome_completo,
-        cpf,
-        data_de_nascimento,
-        genero,
-        escola,
-        turma,
-        serie,
-        curso,
-        ano,
-        turno,
-        nome_da_mae,
-        nome_do_pai,
-        nome_do_responsavel,
-        matricula,
-        deficiencia,
-        descritores
-      )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-      RETURNING *
-    `,
-      [
-        this.nome_completo,
-        this.cpf,
-        this.data_de_nascimento,
-        this.genero,
-        this.escola,
-        this.turma,
-        this.serie,
-        this.curso,
-        this.ano,
-        this.turno,
-        this.nome_da_mae,
-        this.nome_do_pai,
-        this.nome_do_responsavel,
-        this.matricula,
-        this.deficiencia,
-        this.descritores
-      ]
-    );
-    return new AlunoModel(result.rows[0]);
+    try {
+      const result = await AlunoModel.pool.query(
+        `INSERT INTO alunos (
+          nome_completo,
+          cpf,
+          data_de_nascimento,
+          genero,
+          escola,
+          turma,
+          serie,
+          curso,
+          ano,
+          turno,
+          nome_da_mae,
+          nome_do_pai,
+          nome_do_responsavel,
+          matricula,
+          deficiencia,
+          descritores
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+        RETURNING *`,
+        [
+          this.nome_completo,
+          this.cpf,
+          this.data_de_nascimento,
+          this.genero,
+          this.escola,
+          this.turma,
+          this.serie,
+          this.curso,
+          this.ano,
+          this.turno,
+          this.nome_da_mae,
+          this.nome_do_pai,
+          this.nome_do_responsavel,
+          this.matricula,
+          this.deficiencia,
+          this.descritores
+        ]
+      );
+      return new AlunoModel(result.rows[0]);
+    } catch (error) {
+      console.error("Erro ao salvar novo aluno:", error);
+      throw error;
+    }
   }
 
   async update(): Promise<void> {
-    await AlunoModel.pool.query(
-      `
-      UPDATE alunos
-      SET
-        nome_completo = $1,
-        cpf = $2,
-        data_de_nascimento = $3,
-        genero = $4,
-        escola = $5,
-        turma = $6,
-        serie = $7,
-        curso = $8,
-        ano = $9,
-        turno = $10,
-        nome_da_mae = $11,
-        nome_do_pai = $12,
-        nome_do_responsavel = $13,
-        matricula = $14,
-        deficiencia = $15,
-        descritores = $16
-      WHERE id = $17
-    `,
-      [
-        this.nome_completo,
-        this.cpf,
-        this.data_de_nascimento,
-        this.genero,
-        this.escola,
-        this.turma,
-        this.serie,
-        this.curso,
-        this.ano,
-        this.turno,
-        this.nome_da_mae,
-        this.nome_do_pai,
-        this.nome_do_responsavel,
-        this.matricula,
-        this.deficiencia,
-        this.descritores,
-        this.id,
-      ]
-    );
+    try {
+      await AlunoModel.pool.query(
+        `UPDATE alunos
+        SET
+          nome_completo = $1,
+          cpf = $2,
+          data_de_nascimento = $3,
+          genero = $4,
+          escola = $5,
+          turma = $6,
+          serie = $7,
+          curso = $8,
+          ano = $9,
+          turno = $10,
+          nome_da_mae = $11,
+          nome_do_pai = $12,
+          nome_do_responsavel = $13,
+          matricula = $14,
+          deficiencia = $15,
+          descritores = $16
+        WHERE id = $17`,
+        [
+          this.nome_completo,
+          this.cpf,
+          this.data_de_nascimento,
+          this.genero,
+          this.escola,
+          this.turma,
+          this.serie,
+          this.curso,
+          this.ano,
+          this.turno,
+          this.nome_da_mae,
+          this.nome_do_pai,
+          this.nome_do_responsavel,
+          this.matricula,
+          this.deficiencia,
+          this.descritores,
+          this.id,
+        ]
+      );
+    } catch (error) {
+      console.error("Erro ao atualizar aluno por ID:", error);
+      throw error;
+    }
   }
 
   static async excluirPorId(id: string): Promise<void> {
-    await this.pool.query("DELETE FROM alunos WHERE id = $1", [id]);
+    try {
+      await this.pool.query("DELETE FROM alunos WHERE id = $1", [id]);
+    } catch (error) {
+      console.error("Erro ao excluir aluno por ID:", error);
+      throw error;
+    }
   }
 
   static async excluirPorMatricula(matricula: string): Promise<void> {
-    await this.pool.query("DELETE FROM alunos WHERE matricula = $1", [matricula]);
+    try {
+      await this.pool.query("DELETE FROM alunos WHERE matricula = $1", [matricula]);
+    } catch (error) {
+      console.error("Erro ao excluir aluno por matrícula:", error);
+      throw error;
+    }
   }
 }
 
