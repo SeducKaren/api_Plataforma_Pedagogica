@@ -27,16 +27,16 @@ class EscolaController {
     }
   }
 
-  static async save(escolaData: any): Promise<EscolaModel> {
+  static async save(req: Request, res: Response): Promise<void> {
     try {
-      const novaEscola = new EscolaModel(escolaData);
+      const novaEscola = new EscolaModel(req.body);
       const escolaSalva = await novaEscola.save();
-      return escolaSalva; // Retorna a escola salva
+      res.status(201).json(escolaSalva);
     } catch (error) {
-      console.error("Erro ao salvar nova escola:", error);
-      throw error; // Lança o erro para ser tratado pelo endpoint POST
+      console.error("Erro interno do servidor ao criar a escola:", error);
+      res.status(500).json({ message: "Erro interno do servidor." });
     }
-  }
+  }  
 
   static async updateByCodigoInep(req: Request, res: Response): Promise<void> {
     try {
