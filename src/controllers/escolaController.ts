@@ -40,7 +40,7 @@ class EscolaController {
     const escolaData = req.body;
 
     try {
-      const novaEscola = await EscolaModel.create(escolaData);
+      const novaEscola = await new EscolaModel(escolaData).save();
       res.status(201).json(novaEscola);
     } catch (error) {
       console.error(error);
