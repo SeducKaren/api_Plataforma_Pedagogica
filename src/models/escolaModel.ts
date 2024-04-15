@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import { Pool } from 'pg';
 
 class EscolaModel {
   static pool = new Pool({
@@ -8,26 +8,28 @@ class EscolaModel {
     connectionString: process.env.DATABASE_URL,
   });
 
-  codigo_inep: string;
-  escola: string;
-  sigla: string;
-  zona_de_localidade: string;
-  cnpj: string;
-  cep: string;
-  endereco: string;
-  numero: string;
-  complemento: string;
-  municipio: string;
-  estado: string;
-  telefone1: string;
-  telefone2: string;
-  email: string;
-  ano_do_aluno: string;
-  curso: string;
-  serie: string;
-  quantidades_de_aluno: number | undefined;
+  id?: string;
+  codigo_inep?: string;
+  escola?: string;
+  sigla?: string;
+  zona_de_localidade?: string;
+  cnpj?: string;
+  cep?: string;
+  endereco?: string;
+  numero?: string;
+  complemento?: string;
+  municipio?: string;
+  estado?: string;
+  telefone1?: string;
+  telefone2?: string;
+  email?: string;
+  ano_do_aluno?: number;
+  curso?: string;
+  serie?: string;
+  quantidade_de_alunos?: number;
 
-  constructor(data: any) {
+  constructor(data: any = {}) {
+    this.id = data.id || undefined;
     this.codigo_inep = data.codigo_inep || undefined;
     this.escola = data.escola || undefined;
     this.sigla = data.sigla || undefined;
@@ -45,35 +47,32 @@ class EscolaModel {
     this.ano_do_aluno = data.ano_do_aluno || undefined;
     this.curso = data.curso || undefined;
     this.serie = data.serie || undefined;
-    this.quantidades_de_aluno = data.quantidades_de_aluno || undefined;
-  }
-
-  static async findByCodigoInep(codigoInep: string): Promise<EscolaModel | undefined> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM escola
-      WHERE codigo_inep = $1
-    `,
-      [codigoInep]
-    );
-    return result.rows[0] ? new EscolaModel(result.rows[0]) : undefined;
-  }
-
-  static async findAll(): Promise<EscolaModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM escola
-    `
-    );
-    return result.rows.map((data: any) => new EscolaModel(data));
+    this.quantidade_de_alunos = data.quantidade_de_alunos || undefined;
   }
 
   async save(): Promise<EscolaModel> {
-    const result = await EscolaModel.pool.query(
-      `
-      INSERT INTO escola (
+    const {
+      codigo_inep,
+      escola,
+      sigla,
+      zona_de_localidade,
+      cnpj,
+      cep,
+      endereco,
+      numero,
+      complemento,
+      municipio,
+      estado,
+      telefone1,
+      telefone2,
+      email,
+      ano_do_aluno,
+      curso,
+      serie,
+      quantidade_de_alunos,
+    } = this;
+    const query = `
+      INSERT INTO escolas (
         codigo_inep,
         escola,
         sigla,
@@ -91,94 +90,147 @@ class EscolaModel {
         ano_do_aluno,
         curso,
         serie,
-        quantidades_de_aluno
+        quantidade_de_alunos
       )
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
       RETURNING *
-    `,
-      [
-        this.codigo_inep,
-        this.escola,
-        this.sigla,
-        this.zona_de_localidade,
-        this.cnpj,
-        this.cep,
-        this.endereco,
-        this.numero,
-        this.complemento,
-        this.municipio,
-        this.estado,
-        this.telefone1,
-        this.telefone2,
-        this.email,
-        this.ano_do_aluno,
-        this.curso,
-        this.serie,
-        this.quantidades_de_aluno,
-      ]
-    );
+    `;
+    const values = [
+      codigo_inep,
+      escola,
+      sigla,
+      zona_de_localidade,
+      cnpj,
+      cep,
+      endereco,
+      numero,
+      complemento,
+      municipio,
+      estado,
+      telefone1,
+      telefone2,
+      email,
+      ano_do_aluno,
+      curso,
+      serie,
+      quantidade_de_alunos,
+    ];
+    const result = await EscolaModel.pool.query(query, values);
     return new EscolaModel(result.rows[0]);
   }
 
-  async update(): Promise<void> {
-    await EscolaModel.pool.query(
+  static async findById(id: string): Promise<EscolaModel | undefined> {
+    const result = await this.pool.query(
       `
-      UPDATE escola
-      SET
-        escola = $1,
-        sigla = $2,
-        zona_de_localidade = $3,
-        cnpj = $4,
-        cep = $5,
-        endereco = $6,
-        numero = $7,
-        complemento = $8,
-        municipio = $9,
-        estado = $10,
-        telefone1 = $11,
-        telefone2 = $12,
-        email = $13,
-        ano_do_aluno = $14,
-        curso = $15,
-        serie = $16,
-        quantidades_de_aluno = $17
-      WHERE codigo_inep = $18
-    `,
-      [
-        this.escola,
-        this.sigla,
-        this.zona_de_localidade,
-        this.cnpj,
-        this.cep,
-        this.endereco,
-        this.numero,
-        this.complemento,
-        this.municipio,
-        this.estado,
-        this.telefone1,
-        this.telefone2,
-        this.email,
-        this.ano_do_aluno,
-        this.curso,
-        this.serie,
-        this.quantidades_de_aluno,
-        this.codigo_inep,
-      ]
+        SELECT *
+        FROM escolas
+        WHERE id = $1
+      `,
+      [id]
     );
-  }
-  
-  static async deleteByCodigoInep(codigoInep: string): Promise<void> {
-    await this.pool.query("DELETE FROM escola WHERE codigo_inep = $1", [codigoInep]);
+    return result.rows[0] ? new EscolaModel(result.rows[0]) : undefined;
   }
 
-  static async findByNome(nomeEscola: string): Promise<EscolaModel | undefined> {
+  static async findAll(): Promise<EscolaModel[]> {
     const result = await this.pool.query(
-        `
+      `
         SELECT *
-        FROM escola
+        FROM escolas
+      `
+    );
+    return result.rows.map((data: any) => new EscolaModel(data));
+  }
+
+  static async update(escola: EscolaModel): Promise<EscolaModel> {
+    await this.pool.query(
+      `
+        UPDATE escolas
+        SET
+          codigo_inep = $1,
+          escola = $2,
+          sigla = $3,
+          zona_de_localidade = $4,
+          cnpj = $5,
+          cep = $6,
+          endereco = $7,
+          numero = $8,
+          complemento = $9,
+          municipio = $10,
+          estado = $11,
+          telefone1 = $12,
+          telefone2 = $13,
+          email = $14,
+          ano_do_aluno = $15,
+          curso = $16,
+          serie = $17,
+          quantidade_de_alunos = $18
+        WHERE id = $19
+      `,
+      [
+        escola.codigo_inep,
+        escola.escola,
+        escola.sigla,
+        escola.zona_de_localidade,
+        escola.cnpj,
+        escola.cep,
+        escola.endereco,
+        escola.numero,
+        escola.complemento,
+        escola.municipio,
+        escola.estado,
+        escola.telefone1,
+        escola.telefone2,
+        escola.email,
+        escola.ano_do_aluno,
+        escola.curso,
+        escola.serie,
+        escola.quantidade_de_alunos,
+        escola.id,
+      ]
+    );
+    return escola;
+  }
+
+  static async excluirPorId(id: string): Promise<void> {
+    await this.pool.query(
+      `
+        DELETE FROM escolas
+        WHERE id = $1
+      `,
+      [id]
+    );
+  }
+
+  static async excluirPorCodigoInep(codigoInep: string): Promise<void> {
+    await this.pool.query(
+      `
+        DELETE FROM escolas
+        WHERE codigo_inep = $1
+      `,
+      [codigoInep]
+    );
+  }
+
+  static async findByNomeGenerico(nome: string): Promise<EscolaModel[]> {
+    const result = await this.pool.query(
+      `
+        SELECT *
+        FROM escolas
         WHERE escola ILIKE $1
-        `,
-        [`%${nomeEscola}%`]
+      `,
+      [`%${nome}%`]
+    );
+    return result.rows.map((data: any) => new EscolaModel(data));
+  }
+
+  static async findByCodigoInep(codigoInep: string): Promise<EscolaModel | undefined> {
+    const result = await this.pool.query(
+      `
+        SELECT *
+        FROM escolas
+        WHERE codigo_inep = $1
+      `,
+      [codigoInep]
     );
     return result.rows[0] ? new EscolaModel(result.rows[0]) : undefined;
   }
