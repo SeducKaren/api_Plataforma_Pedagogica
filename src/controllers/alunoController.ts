@@ -13,7 +13,7 @@ class AlunoController {
         res.status(404).json({ message: "Aluno not found" });
       }
     } catch (error) {
-      console.error("Erro ao buscar aluno por ID:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -29,7 +29,7 @@ class AlunoController {
         res.status(404).json({ message: "Aluno not found" });
       }
     } catch (error) {
-      console.error("Erro ao buscar aluno por CPF:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -45,7 +45,7 @@ class AlunoController {
         res.status(404).json({ message: "Nenhum aluno encontrado com este nome" });
       }
     } catch (error) {
-      console.error("Erro ao buscar alunos por nome:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -61,7 +61,7 @@ class AlunoController {
         res.status(404).json({ message: "Nenhum aluno encontrado para esta escola" });
       }
     } catch (error) {
-      console.error("Erro ao buscar alunos por escola:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -77,7 +77,7 @@ class AlunoController {
         res.status(404).json({ message: "Aluno not found" });
       }
     } catch (error) {
-      console.error("Erro ao buscar aluno por matrícula:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -87,7 +87,7 @@ class AlunoController {
       const alunos = await AlunoModel.findAll();
       res.status(200).json(alunos);
     } catch (error) {
-      console.error("Erro ao buscar todos os alunos:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -100,7 +100,7 @@ class AlunoController {
       const savedAluno = await newAluno.save();
       res.status(201).json(savedAluno);
     } catch (error) {
-      console.error("Erro ao criar aluno:", error);
+      console.error(error);
 
       if (error instanceof Error) {
         if (error.message.includes("validation")) {
@@ -136,7 +136,7 @@ class AlunoController {
         res.status(404).json({ message: "Aluno not found" });
       }
     } catch (error) {
-      console.error("Erro ao atualizar aluno:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -148,7 +148,7 @@ class AlunoController {
       await AlunoModel.excluirPorId(alunoId);
       res.status(204).send();
     } catch (error) {
-      console.error("Erro ao excluir aluno por ID:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -160,7 +160,7 @@ class AlunoController {
       await AlunoModel.excluirPorMatricula(matricula);
       res.status(204).send();
     } catch (error) {
-      console.error("Erro ao excluir aluno por matrícula:", error);
+      console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
