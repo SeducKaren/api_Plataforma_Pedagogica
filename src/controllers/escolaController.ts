@@ -27,14 +27,14 @@ class EscolaController {
     }
   }
 
-  static async save(req: Request, res: Response): Promise<void> {
+  static async save(escolaData: any): Promise<EscolaModel> {
     try {
-      const novaEscola = new EscolaModel(req.body);
+      const novaEscola = new EscolaModel(escolaData);
       const escolaSalva = await novaEscola.save();
-      res.status(201).json(escolaSalva);
+      return escolaSalva; // Retorna a escola salva
     } catch (error) {
       console.error("Erro ao salvar nova escola:", error);
-      res.status(500).json({ message: "Erro interno do servidor." });
+      throw error; // Lança o erro para ser tratado pelo endpoint POST
     }
   }
 
