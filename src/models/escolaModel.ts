@@ -25,7 +25,7 @@ class EscolaModel {
   ano_do_aluno: string;
   curso: string;
   serie: string;
-  quantidades_de_aluno: number | undefined;
+  quantidade_de_aluno: number | undefined;
 
   constructor(data: any) {
     this.codigo_inep = data.codigo_inep || "";
@@ -45,7 +45,7 @@ class EscolaModel {
     this.ano_do_aluno = data.ano_do_aluno || "";
     this.curso = data.curso || "";
     this.serie = data.serie || "";
-    this.quantidades_de_aluno = data.quantidades_de_aluno || undefined;
+    this.quantidade_de_aluno = data.quantidade_de_aluno || undefined;
   }
 
   static async findByCodigoInep(codigoInep: string): Promise<EscolaModel | undefined> {
@@ -89,7 +89,7 @@ class EscolaModel {
           ano_do_aluno,
           curso,
           serie,
-          quantidades_de_aluno
+          quantidade_de_aluno
         )
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
         RETURNING *`,
@@ -111,7 +111,7 @@ class EscolaModel {
           this.ano_do_aluno,
           this.curso,
           this.serie,
-          this.quantidades_de_aluno,
+          this.quantidade_de_aluno,
         ]
       );
       return new EscolaModel(result.rows[0]);
@@ -142,7 +142,7 @@ class EscolaModel {
           ano_do_aluno = $14,
           curso = $15,
           serie = $16,
-          quantidades_de_aluno = $17
+          quantidade_de_aluno = $17
         WHERE codigo_inep = $18`,
         [
           this.escola,
@@ -161,7 +161,7 @@ class EscolaModel {
           this.ano_do_aluno,
           this.curso,
           this.serie,
-          this.quantidades_de_aluno,
+          this.quantidade_de_aluno,
           this.codigo_inep,
         ]
       );
