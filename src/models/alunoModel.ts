@@ -113,7 +113,8 @@ class AlunoModel {
   async save(): Promise<AlunoModel> {
     try {
       const result = await AlunoModel.pool.query(
-        `INSERT INTO alunos (
+        `
+        INSERT INTO alunos (
           nome_completo,
           cpf,
           data_de_nascimento,
@@ -132,7 +133,8 @@ class AlunoModel {
           descritores
         )
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-        RETURNING *`,
+        RETURNING *
+      `,
         [
           this.nome_completo,
           this.cpf,
@@ -149,7 +151,7 @@ class AlunoModel {
           this.nome_do_responsavel,
           this.matricula,
           this.deficiencia,
-          this.descritores
+          this.descritores,
         ]
       );
       return new AlunoModel(result.rows[0]);
@@ -162,7 +164,8 @@ class AlunoModel {
   async update(): Promise<void> {
     try {
       await AlunoModel.pool.query(
-        `UPDATE alunos
+        `
+        UPDATE alunos
         SET
           nome_completo = $1,
           cpf = $2,
@@ -180,7 +183,8 @@ class AlunoModel {
           matricula = $14,
           deficiencia = $15,
           descritores = $16
-        WHERE id = $17`,
+        WHERE id = $17
+      `,
         [
           this.nome_completo,
           this.cpf,
@@ -202,7 +206,7 @@ class AlunoModel {
         ]
       );
     } catch (error) {
-      console.error("Erro ao atualizar aluno por ID:", error);
+      console.error("Erro ao atualizar aluno:", error);
       throw error;
     }
   }
