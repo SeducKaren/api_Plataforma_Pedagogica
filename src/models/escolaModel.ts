@@ -69,56 +69,60 @@ class EscolaModel {
     );
     return result.rows.map((data: any) => new EscolaModel(data));
   }
-
   static async create(data: any): Promise<EscolaModel> {
-    const result = await this.pool.query(
-      `
-      INSERT INTO escola (
-        codigo_inep,
-        escola,
-        sigla,
-        zona_de_localidade,
-        cnpj,
-        cep,
-        endereco,
-        numero,
-        complemento,
-        municipio,
-        estado,
-        telefone1,
-        telefone2,
-        email,
-        ano_do_aluno,
-        curso,
-        serie,
-        quantidades_de_aluno
-      )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
-      RETURNING *
-    `,
-      [
-        data.codigo_inep,
-        data.escola,
-        data.sigla,
-        data.zona_de_localidade,
-        data.cnpj,
-        data.cep,
-        data.endereco,
-        data.numero,
-        data.complemento,
-        data.municipio,
-        data.estado,
-        data.telefone1,
-        data.telefone2,
-        data.email,
-        data.ano_do_aluno,
-        data.curso,
-        data.serie,
-        data.quantidades_de_aluno,
-      ]
-    );
-    return new EscolaModel(result.rows[0]);
-  }
+    try {
+      const result = await this.pool.query(
+        `
+        INSERT INTO escola (
+          codigo_inep,
+          escola,
+          sigla,
+          zona_de_localidade,
+          cnpj,
+          cep,
+          endereco,
+          numero,
+          complemento,
+          municipio,
+          estado,
+          telefone1,
+          telefone2,
+          email,
+          ano_do_aluno,
+          curso,
+          serie,
+          quantidades_de_aluno
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+        RETURNING *
+      `,
+        [
+          data.codigo_inep,
+          data.escola,
+          data.sigla,
+          data.zona_de_localidade,
+          data.cnpj,
+          data.cep,
+          data.endereco,
+          data.numero,
+          data.complemento,
+          data.municipio,
+          data.estado,
+          data.telefone1,
+          data.telefone2,
+          data.email,
+          data.ano_do_aluno,
+          data.curso,
+          data.serie,
+          data.quantidades_de_aluno,
+        ]
+      );
+      return new EscolaModel(result.rows[0]);
+    } catch (error) {
+      console.error("Error in create method:", error);
+      throw error;
+    }
+  }  
 
   static async updateByCodigoInep(codigoInep: string, newData: any): Promise<EscolaModel> {
     const result = await this.pool.query(
