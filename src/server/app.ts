@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { PoolClient } from "pg";
 import indexRouter from "../routes/indexRoutes";
 import pool from "./database";
+//import ResultadosProvasModel from './caminho/do/seu/modelo/resultadosProvasModel';
 
 dotenv.config();
 
@@ -73,4 +74,5 @@ const PORT = process.env.PORT;
     console.log(`+++ O servidor está rodando na porta ${PORT} +++`);
     console.log(`+++ O servidor está acessível em http://localhost:${PORT} +++`);
   }
-  );
+
+);
