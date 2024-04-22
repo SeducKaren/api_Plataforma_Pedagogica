@@ -26,17 +26,18 @@ class GabaritoProvasModel {
         //Pensando em colocar o número max de questão e o front exclui os null
         await GabaritoProvasModel.pool.query('INSERT INTO gabarito_provas VALUES ()',
             [
-            
+
             ]);
     }
 
-    static async updateByMatricula(numeroMatricula: string, gabaritoProvas: GabaritoProvas): Promise<void> {
+    static async updateByNivel(nivel_prova: string, gabaritoProvas: GabaritoProvas): Promise<void> {
         await GabaritoProvasModel.pool.query('UPDATE gabaritos_provas SET ',
             [
+                
             ]);
     }
 
-    static async deleteByMatricula(nivel_prova: string): Promise<void> {
+    static async deleteByNivel(nivel_prova: string): Promise<void> {
         await GabaritoProvasModel.pool.query('DELETE FROM gabarito_provas WHERE nivel_prova = $1', [nivel_prova]);
     }
 }
