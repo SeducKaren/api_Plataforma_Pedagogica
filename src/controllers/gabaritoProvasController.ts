@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GabaritoProvasModel, GabaritoProvas } from '../models/gabaritoProvasModel';
+import  GabaritoProvasModel  from '../models/gabaritoProvasModel';
 
 export class GabaritoProvasController {
     static async getAll(req: Request, res: Response): Promise<void> {
@@ -15,7 +15,7 @@ export class GabaritoProvasController {
     static async getByNivel(req: Request, res: Response): Promise<void> {
         const { nivel_prova } = req.params;
         try {
-            const gabaritoProvas = await GabaritoProvasModel.getByMatricula(nivel_prova);
+            const gabaritoProvas = await GabaritoProvasModel.getByNivel(nivel_prova);
             if (gabaritoProvas) {
                 res.json(gabaritoProvas);
             } else {
@@ -27,7 +27,7 @@ export class GabaritoProvasController {
         }
     }
 
-    static async create(req: Request, res: Response): Promise<void> {
+/*     static async create(req: Request, res: Response): Promise<void> {
         try {
             const gabaritoProvas: GabaritoProvas = req.body;
             await GabaritoProvasModel.create(gabaritoProvas);
@@ -59,5 +59,5 @@ export class GabaritoProvasController {
             console.error('Erro ao deletar dados:', error);
             res.status(500).json({ message: 'Erro ao deletar dados. Por favor, tente novamente mais tarde.' });
         }
-    }
+    } */
 }

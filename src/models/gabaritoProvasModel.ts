@@ -17,12 +17,21 @@ class GabaritoProvasModel {
         return result.rows;
     }
 
-    static async getByNivel(prova_nivel: string): Promise<GabaritoProvas | null> {
-        const result = await GabaritoProvasModel.pool.query('SELECT * FROM gabarito_provas WHERE prova_nivel = $1', [prova_nivel]);
+    static async getByNivel(nivel_prova: string): Promise<GabaritoProvas | null> {
+        let result
+        if(nivel_prova == '1' ){
+            result = await GabaritoProvasModel.pool.query('SELECT * FROM gabarito_provas WHERE nivel_prova = $1 LIMIT 40', [nivel_prova]);
+        }else if(nivel_prova == '2' || nivel_prova == '3'){
+            result = await GabaritoProvasModel.pool.query('SELECT * FROM gabarito_provas WHERE nivel_prova = $1 LIMIT 44', [nivel_prova]);
+        }else if(nivel_prova == '4'){
+            result = await GabaritoProvasModel.pool.query('SELECT * FROM gabarito_provas WHERE nivel_prova = $1 LIMIT 52', [nivel_prova]);
+        }else{
+            result = await GabaritoProvasModel.pool.query('SELECT * FROM gabarito_provas WHERE nivel_prova = $1 LIMIT 30', [nivel_prova]);
+        }  
         return result.rows[0] || null;
     }
 
-    static async create(gabaritoProvas: GabaritoProvas): Promise<void> {
+/*     static async create(gabaritoProvas: GabaritoProvas): Promise<void> {
         //Pensando em colocar o número max de questão e o front exclui os null
         await GabaritoProvasModel.pool.query('INSERT INTO gabarito_provas VALUES ()',
             [
@@ -39,7 +48,7 @@ class GabaritoProvasModel {
 
     static async deleteByNivel(nivel_prova: string): Promise<void> {
         await GabaritoProvasModel.pool.query('DELETE FROM gabarito_provas WHERE nivel_prova = $1', [nivel_prova]);
-    }
+    } */
 }
 
 GabaritoProvasModel.initialize();

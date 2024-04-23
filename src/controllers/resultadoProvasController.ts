@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { ResultadosProvasModel, ResultadosProvas } from '../models/resultadoProvasModel';
+import { ResultadosProvas } from '../models/resultadoProvasModel';
+import ResultadosProvasModel from '../models/resultadoProvasModel'
 
 export class ResultadosProvasController {
     static async getAll(req: Request, res: Response): Promise<void> {

@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get('/', GabaritoProvasController.getAll);
 router.get('/:nivel', GabaritoProvasController.getByNivel);
-router.post('/', GabaritoProvasController.create);
+/* router.post('/', GabaritoProvasController.create);
 router.put('/:nivel', GabaritoProvasController.updateByNivel);
-router.delete('/:nivel', GabaritoProvasController.deleteByNivel);
+router.delete('/:nivel', GabaritoProvasController.deleteByNivel); */
 
 export default router;
 
