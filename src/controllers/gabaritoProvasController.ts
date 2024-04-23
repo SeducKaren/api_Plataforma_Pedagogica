@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GabaritoProvasModel, GabaritoProvas } from '../models/gabaritoProvasModel';
+import GabaritoProvasModel from '../models/gabaritoProvasModel';
 
 export class GabaritoProvasController {
     static async getAll(req: Request, res: Response): Promise<void> {
@@ -15,7 +15,25 @@ export class GabaritoProvasController {
     static async getByNivel(req: Request, res: Response): Promise<void> {
         const { nivel_prova } = req.params;
         try {
-            const gabaritoProvas = await GabaritoProvasModel.getByMatricula(nivel_prova);
+            const gabaritoProvas = await GabaritoProvasModel.getByNivel(nivel_prova);
+            if (gabaritoProvas) {
+                // Filtrar os itens que têm valores
+                const gabaritoComValores = gabaritoProvas.filter(item => item.nivel_prova !== null);
+                res.json(gabaritoComValores);
+            } else {
+                res.status(404).json({ message: 'Gabarito do nível da prova não encontrado' });
+            }
+        } catch (error) {
+            console.error('Erro o gabarito desse nível de provas:', error);
+            res.status(500).json({ message: 'Erro ao obter o gabarito desse nível de provas. Por favor, tente novamente mais tarde.' });
+        }
+    }
+ }
+    
+    /* static async getByNivel(req: Request, res: Response): Promise<void> {
+        const { nivel_prova } = req.params;
+        try {
+            const gabaritoProvas = await GabaritoProvasModel.getByNivel(nivel_prova);
             if (gabaritoProvas) {
                 res.json(gabaritoProvas);
             } else {
@@ -25,9 +43,9 @@ export class GabaritoProvasController {
             console.error('Erro o gabarito desse nível de provas:', error);
             res.status(500).json({ message: 'Erro ao obter o gabarito desse nível de provas. Por favor, tente novamente mais tarde.' });
         }
-    }
+    } */
 
-    static async create(req: Request, res: Response): Promise<void> {
+    /* static async create(req: Request, res: Response): Promise<void> {
         try {
             const gabaritoProvas: GabaritoProvas = req.body;
             await GabaritoProvasModel.create(gabaritoProvas);
@@ -58,6 +76,6 @@ export class GabaritoProvasController {
         } catch (error) {
             console.error('Erro ao deletar dados:', error);
             res.status(500).json({ message: 'Erro ao deletar dados. Por favor, tente novamente mais tarde.' });
-        }
-    }
-}
+        } */
+     
+

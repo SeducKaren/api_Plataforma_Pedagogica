@@ -17,12 +17,23 @@ class GabaritoProvasModel {
         return result.rows;
     }
 
-    static async getByNivel(prova_nivel: string): Promise<GabaritoProvas | null> {
+    static async getByNivel(prova_nivel: string): Promise<GabaritoProvas[]> {
+        try {
+            const result = await GabaritoProvasModel.pool.query('SELECT * FROM gabarito_provas WHERE prova_nivel = $1', [prova_nivel]);
+            return result.rows;
+        } catch (error) {
+            console.error('Erro ao obter o gabarito desse nível de provas:', error);
+            return [];
+        }
+    }
+  
+
+    /* static async getByNivel(prova_nivel: string): Promise<GabaritoProvas | null> {
         const result = await GabaritoProvasModel.pool.query('SELECT * FROM gabarito_provas WHERE prova_nivel = $1', [prova_nivel]);
         return result.rows[0] || null;
-    }
+    } */
 
-    static async create(gabaritoProvas: GabaritoProvas): Promise<void> {
+    /* static async create(gabaritoProvas: GabaritoProvas): Promise<void> {
         //Pensando em colocar o número max de questão e o front exclui os null
         await GabaritoProvasModel.pool.query('INSERT INTO gabarito_provas VALUES ()',
             [
@@ -39,7 +50,7 @@ class GabaritoProvasModel {
 
     static async deleteByNivel(nivel_prova: string): Promise<void> {
         await GabaritoProvasModel.pool.query('DELETE FROM gabarito_provas WHERE nivel_prova = $1', [nivel_prova]);
-    }
+  */   
 }
 
 GabaritoProvasModel.initialize();
