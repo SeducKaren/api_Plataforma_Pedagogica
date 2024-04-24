@@ -58,15 +58,4 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
-// Rota para cadastrar um novo usuário
-router.post("/", async (req: Request, res: Response) => {
-  try {
-    // Chamar o método correto do CadastroController
-    await CadastroController.cadastrarUsuario(req, res);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
 export default router;
