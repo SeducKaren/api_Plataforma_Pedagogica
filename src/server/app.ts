@@ -20,12 +20,7 @@ interface ExtendedRequest extends Request {
 }
 
 // Middlewares
-app.use(
-  cors({
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
