@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import { PoolClient } from "pg";
 import indexRouter from "../routes/indexRoutes";
+
 import pool from "./database";
 //import ResultadosProvasModel from './caminho/do/seu/modelo/resultadosProvasModel';
 

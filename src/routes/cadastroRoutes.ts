@@ -17,7 +17,7 @@ router.get("/escola/:nomeEscola?", async (req: Request, res: Response) => {
     await CadastroController.getUsuariosByEscola(req, res);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Erro ao buscar usuários por escola" });
   }
 });
 
@@ -30,7 +30,7 @@ router.get("/nome/:nome", async (req: Request, res: Response) => {
     await CadastroController.getUsuariosByNome(req, res);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Erro ao buscar usuários por nome" });
   }
 });
 
@@ -43,7 +43,7 @@ router.get("/cpf/:cpf", async (req: Request, res: Response) => {
     await CadastroController.getUsuariosByCPF(req, res);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Erro ao buscar usuários por CPF" });
   }
 });
 
@@ -54,7 +54,7 @@ router.get("/", async (req: Request, res: Response) => {
     await CadastroController.getAllUsuarios(req, res);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Erro ao buscar todos os usuários" });
   }
 });
 
@@ -65,7 +65,7 @@ router.post("/", async (req: Request, res: Response) => {
     await CadastroController.cadastrarUsuario(req, res);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Erro ao cadastrar um novo usuário" });
   }
 });
 
