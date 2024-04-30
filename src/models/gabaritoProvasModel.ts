@@ -39,7 +39,7 @@ class GabaritoProvasModel {
           `
           SELECT *
           FROM gabarito_2024
-          WHERE nivel_prova = $1
+          WHERE id = $1
         `,
           [nivel_prova]
         );

@@ -14,9 +14,9 @@ export class GabaritoProvasController {
     }
 
     static async getByNivel(req: Request, res: Response): Promise<void> {
-        const { nivel_prova } = req.params;
+        const { id } = req.params;
         try {
-            const gabaritoProvas = await GabaritoProvasModel.getByNivel(nivel_prova);
+            const gabaritoProvas = await GabaritoProvasModel.getByNivel(id);
             if (gabaritoProvas) {
                 res.json(gabaritoProvas);
             } else {
