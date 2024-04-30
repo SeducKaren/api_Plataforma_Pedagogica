@@ -14,13 +14,13 @@ export class GabaritoProvasController {
     }
 
     static async getByNivel(req: Request, res: Response): Promise<void> {
-        const { id } = req.params;
+        const { nivel_prova } = req.params;
         try {
-            const gabaritoProvas = await GabaritoProvasModel.getByNivel(id);
+            const gabaritoProvas = await GabaritoProvasModel.getByNivel(nivel_prova);
             if (gabaritoProvas) {
                 res.json(gabaritoProvas);
             } else {
-                res.status(404).json({ message: 'Gabarito do nível da prova não encontrado' });
+                res.status(404).json({ message: `Gabarito do nível da prova não encontrado ${nivel_prova}` });
             }
         } catch (error) {
             console.error('Erro o gabarito desse nível de provas:', error);
