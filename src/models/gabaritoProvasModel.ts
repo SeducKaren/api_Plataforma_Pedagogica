@@ -61,6 +61,7 @@ class GabaritoProvasModel {
           VALUES ($1, $2, $3, $4, $5)
           RETURNING *
         `;
+        console.log(id, data, nivel_prova, respostas_lingua_portuguesa, respostas_matematica)
         const values = [id, data, nivel_prova, respostas_lingua_portuguesa, respostas_matematica];
     
         try {
