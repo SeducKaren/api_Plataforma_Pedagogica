@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import  GabaritoProvasModel  from '../models/gabaritoProvasModel';
+import {GabaritoProvas} from '../models/gabaritoProvasModel'
 
 export class GabaritoProvasController {
     static async getAll(req: Request, res: Response): Promise<void> {
@@ -27,7 +28,7 @@ export class GabaritoProvasController {
         }
     }
 
-/*     static async create(req: Request, res: Response): Promise<void> {
+    static async create(req: Request, res: Response): Promise<void> {
         try {
             const gabaritoProvas: GabaritoProvas = req.body;
             await GabaritoProvasModel.create(gabaritoProvas);
@@ -37,7 +38,7 @@ export class GabaritoProvasController {
             res.status(500).json({ message: 'Erro ao inserir dados. Por favor, tente novamente mais tarde.' });
         }
     }
-
+/* 
     static async updateByNivel(req: Request, res: Response): Promise<void> {
         const { nivel_prova } = req.params;
         try {
