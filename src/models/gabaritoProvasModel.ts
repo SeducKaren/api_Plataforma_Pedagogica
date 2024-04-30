@@ -45,7 +45,7 @@ GabaritoProvasModel.initialize();
 export interface GabaritoProvas {
     id?: number;
     data: Date;
-    nivel_prova: number;
+    nivel_prova: string;
     respostas_lingua_portuguesa: string[];
     respostas_matematica: string[];
 }
