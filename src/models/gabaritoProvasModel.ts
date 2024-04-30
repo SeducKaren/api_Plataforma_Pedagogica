@@ -18,9 +18,9 @@ class GabaritoProvasModel {
     this.id = data.id || undefined;
     this.data = data.data || undefined;
     this.nivel_prova = data.nivel_prova || undefined;
-    this.respostas_lingua_portuguesa = data.respostas_lingua_portuguesa ? JSON.parse(data.respostas_lingua_portuguesa) : undefined;
-    this.respostas_matematica = data.respostas_matematica ? JSON.parse(data.respostas_matematica) : undefined;
-}
+    this.respostas_lingua_portuguesa = data.respostas_lingua_portuguesa || undefined;
+    this.respostas_matematica = data.respostas_matematica || undefined;
+  }
 
 
     
