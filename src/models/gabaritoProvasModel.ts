@@ -55,13 +55,13 @@ class GabaritoProvasModel {
     }
  */
     static async create(gabaritoData: any): Promise<GabaritoProvasModel> {
-        const { data, nivel_prova,respostas_lingua_portuguesa, respostas_matematica} = gabaritoData;
+        const {id, data, nivel_prova,respostas_lingua_portuguesa, respostas_matematica} = gabaritoData;
         const query = `
-          INSERT INTO gabarito_2024 (data, nivel_prova, respostas_lingua_portuguesa, respostas_matematica)
-          VALUES ($1, $2, $3, $4)
+          INSERT INTO gabarito_2024 (id, data, nivel_prova, respostas_lingua_portuguesa, respostas_matematica)
+          VALUES ($1, $2, $3, $4, $5)
           RETURNING *
         `;
-        const values = [data, nivel_prova, respostas_lingua_portuguesa, respostas_matematica];
+        const values = [id, data, nivel_prova, respostas_lingua_portuguesa, respostas_matematica];
     
         try {
           const result = await this.pool.query(query, values);
