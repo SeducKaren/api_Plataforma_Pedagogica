@@ -4,7 +4,7 @@ import { GabaritoProvasController } from '../controllers/gabaritoProvasControlle
 const gabaritoRouter = express.Router();
 
 gabaritoRouter.get('/', GabaritoProvasController.getAll);
-gabaritoRouter.get('/nivel_prova', GabaritoProvasController.getByNivel);
+gabaritoRouter.get('/:nivel_prova', GabaritoProvasController.getByNivel);
 gabaritoRouter.post('/', GabaritoProvasController.create);
 /* 
 router.put('/:nivel', GabaritoProvasController.updateByNivel);
