@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import  GabaritoProvasModel  from '../models/gabaritoProvasModel';
-import {GabaritoProvas} from '../models/gabaritoProvasModel'
+import GabaritoProvas from '../models/gabaritoProvasModel'
 
 export class GabaritoProvasController {
     static async getAll(req: Request, res: Response): Promise<void> {
