@@ -4,5 +4,6 @@ import GestorModel from "./gestorModel";
 import TurmaModel from "./turmaModel";
 import CadastroModel from "./cadastroModel";
 import { ResultadosProvas } from "./resultadoProvasModel";
+import { GabaritoProvas } from "./gabaritoProvasModel";
 
-export { AlunoModel, EscolaModel, GestorModel, TurmaModel, CadastroModel, ResultadosProvas };
+export { AlunoModel, EscolaModel, GestorModel, TurmaModel, CadastroModel, ResultadosProvas, GabaritoProvas };
