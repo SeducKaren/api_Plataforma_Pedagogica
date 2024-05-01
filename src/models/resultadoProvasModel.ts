@@ -92,16 +92,6 @@ class ResultadosProvasModel {
     return result.rows.map((data: any) => new ResultadosProvasModel(data));
   }
 
-  static async getAll(): Promise<ResultadosProvasModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM resultados_provas
-    `
-    );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
-  }
-
   static async create(provasData: any): Promise<ResultadosProvasModel> {
     const { data, nivel_prova, escola, regiao, quantidade_acertos, numero_matricula, nome_aluno, serie, turma, turno, deficiencia, respostas_lingua_portuguesa, respostas_matematica, dificuldade_lingua_portuguesa, dificuldade_matematica } = provasData;
     const query = `
