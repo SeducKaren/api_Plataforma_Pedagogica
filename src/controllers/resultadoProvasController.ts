@@ -62,5 +62,3 @@ export class ResultadosProvasController {
         }
     }
 }
-
-export default ResultadosProvasController;
