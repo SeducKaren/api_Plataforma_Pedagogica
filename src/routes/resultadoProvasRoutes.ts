@@ -3,20 +3,11 @@ import ResultadosProvasController from "../controllers/resultadoProvasController
 
 const router = express.Router();
 
-// Rota para buscar uma prova por ID (GET)
-router.get("/:id", async (req: Request, res: Response) => {
-  try {
-    await ResultadosProvasController.getProvasById(req, res);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-// Rota para buscar provas por escola (GET)
+// Rota para buscar provas por nome da escola
 router.get("/escola/:nomeEscola?", async (req: Request, res: Response) => {
   let { nomeEscola } = req.params;
 
+  // Se nenhum nome de escola for fornecido, deixe-o como uma string vazia para buscar todas as escolas
   if (!nomeEscola) {
     nomeEscola = "";
   }
@@ -29,19 +20,7 @@ router.get("/escola/:nomeEscola?", async (req: Request, res: Response) => {
   }
 });
 
-// Rota para buscar provas por matrícula (GET)
-router.get("/matricula/:matricula", async (req: Request, res: Response) => {
-  const { matricula } = req.params;
-
-  try {
-    await ResultadosProvasController.getProvasByMatricula(req, res);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-// Rota para buscar provas por nome de aluno (GET)
+// Rota para buscar provas por nome
 router.get("/nome/:nome", async (req: Request, res: Response) => {
   const { nome } = req.params;
 
@@ -53,10 +32,22 @@ router.get("/nome/:nome", async (req: Request, res: Response) => {
   }
 });
 
-// Rota para cadastrar uma nova prova (POST)
-router.post("/", async (req: Request, res: Response) => {
+// Rota para buscar provas por matrícula
+router.get("/matricula/:matricula", async (req: Request, res: Response) => {
+  const { matricula } = req.params;
+
   try {
-    await ResultadosProvasController.cadastrarProva(req, res);
+    await ResultadosProvasController.getProvasByMatricula(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Rota para buscar todas as provas
+router.get("/", async (req: Request, res: Response) => {
+  try {
+    await ResultadosProvasController.getAllProvas(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
