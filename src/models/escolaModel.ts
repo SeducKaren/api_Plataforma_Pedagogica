@@ -20,9 +20,8 @@ class EscolaModel {
   municipio: string;
   estado: string;
   telefone1: string;
-  telefone2: string;
   email: string;
-  ano_do_aluno: string;
+  turnos: string;
   curso: string;
   serie: string;
   quantidade_de_aluno: number | undefined;
@@ -40,9 +39,8 @@ class EscolaModel {
     this.municipio = data.municipio || "";
     this.estado = data.estado || "";
     this.telefone1 = data.telefone1 || "";
-    this.telefone2 = data.telefone2 || "";
     this.email = data.email || "";
-    this.ano_do_aluno = data.ano_do_aluno || "";
+    this.turnos = data.turnos || "";
     this.curso = data.curso || "";
     this.serie = data.serie || "";
     this.quantidade_de_aluno = data.quantidade_de_aluno || undefined;
@@ -84,14 +82,13 @@ class EscolaModel {
           municipio,
           estado,
           telefone1,
-          telefone2,
           email,
-          ano_do_aluno,
+          turnos,
           curso,
           serie,
           quantidade_de_aluno
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
         RETURNING *`,
         [
           this.codigo_inep,
@@ -106,9 +103,8 @@ class EscolaModel {
           this.municipio,
           this.estado,
           this.telefone1,
-          this.telefone2,
           this.email,
-          this.ano_do_aluno,
+          this.turnos,
           this.curso,
           this.serie,
           this.quantidade_de_aluno,
@@ -137,13 +133,12 @@ class EscolaModel {
           municipio = $9,
           estado = $10,
           telefone1 = $11,
-          telefone2 = $12,
-          email = $13,
-          ano_do_aluno = $14,
-          curso = $15,
-          serie = $16,
-          quantidade_de_aluno = $17
-        WHERE codigo_inep = $18`,
+          email = $12,
+          turnos = $13,
+          curso = $14,
+          serie = $15,
+          quantidade_de_aluno = $16
+        WHERE codigo_inep = $17`,
         [
           this.escola,
           this.sigla,
@@ -156,9 +151,8 @@ class EscolaModel {
           this.municipio,
           this.estado,
           this.telefone1,
-          this.telefone2,
           this.email,
-          this.ano_do_aluno,
+          this.turnos,
           this.curso,
           this.serie,
           this.quantidade_de_aluno,
@@ -182,10 +176,8 @@ class EscolaModel {
 
   static async findByNome(nome: string): Promise<EscolaModel | undefined> {
     try {
-      // Certifique-se de que o parâmetro esteja em minúsculas para corresponder ao banco de dados
       const nomeLowercase = nome.toLowerCase();
       
-      // Use ILIKE para uma correspondência de caso insensitivo
       const result = await this.pool.query("SELECT * FROM escola WHERE LOWER(escola) LIKE $1", [`%${nomeLowercase}%`]);
       
       return result.rows[0] ? new EscolaModel(result.rows[0]) : undefined;
