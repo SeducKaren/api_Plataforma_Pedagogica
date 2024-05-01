@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
-import ResultadosProvasController from "../controllers/resultadoProvasController";
+import ResultadosProvasController from "../controllers/resultadosProvasController";
 
 const router = express.Router();
 
-router.get("/", async (req: Request, res: Response) => {
+// Rota para buscar uma prova por ID (GET)
+router.get("/:id", async (req: Request, res: Response) => {
   try {
     await ResultadosProvasController.getProvasById(req, res);
   } catch (error) {
@@ -12,6 +13,7 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+// Rota para buscar provas por escola (GET)
 router.get("/escola/:nomeEscola?", async (req: Request, res: Response) => {
   let { nomeEscola } = req.params;
 
@@ -27,6 +29,7 @@ router.get("/escola/:nomeEscola?", async (req: Request, res: Response) => {
   }
 });
 
+// Rota para buscar provas por matrícula (GET)
 router.get("/matricula/:matricula", async (req: Request, res: Response) => {
   const { matricula } = req.params;
 
@@ -38,6 +41,7 @@ router.get("/matricula/:matricula", async (req: Request, res: Response) => {
   }
 });
 
+// Rota para buscar provas por nome de aluno (GET)
 router.get("/nome/:nome", async (req: Request, res: Response) => {
   const { nome } = req.params;
 
@@ -49,6 +53,7 @@ router.get("/nome/:nome", async (req: Request, res: Response) => {
   }
 });
 
+// Rota para cadastrar uma nova prova (POST)
 router.post("/", async (req: Request, res: Response) => {
   try {
     await ResultadosProvasController.cadastrarProva(req, res);
