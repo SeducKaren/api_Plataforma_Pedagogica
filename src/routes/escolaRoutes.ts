@@ -15,14 +15,7 @@ router.get("/codigoInep/:codigoInep", async (req: Request, res: Response) => {
 
 // Create new escola
 router.post("/", async (req: Request, res: Response) => {
-  try {
-    // Chame o método save de EscolaController para criar uma nova escola
-    const novaEscola = await EscolaController.save(req, res);
-    res.status(201).json(novaEscola);
-  } catch (error) {
-    console.error("Erro ao salvar nova escola:", error);
-    res.status(500).json({ message: "Erro interno do servidor ao criar a escola." });
-  }
+  await EscolaController.save(req, res);
 });
 
 // Update escola by Codigo INEP
