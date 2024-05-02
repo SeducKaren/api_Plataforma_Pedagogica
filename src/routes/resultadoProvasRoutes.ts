@@ -63,5 +63,14 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-// Exporta o router
+// Rota para buscar todas as provas (GET)
+router.get("/", async (req: Request, res: Response) => {
+  try {
+    await ResultadosProvasController.getAllProvas(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 export default router;
