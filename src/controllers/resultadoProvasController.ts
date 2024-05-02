@@ -58,6 +58,16 @@ class ResultadosProvasController {
     }
   }
 
+  static async getAllProvas(req: Request, res: Response): Promise<void> {
+    try {
+      const provas = await ResultadosProvasModel.getAll();
+      res.status(200).json(provas);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
   static async cadastrarProva(req: Request, res: Response): Promise<void> {
     const provaData = req.body;
 
