@@ -1,20 +1,11 @@
 import express, { Request, Response } from "express";
-import ResultadoProvasController from "../controllers/resultadoProvasController";
+import ResultadosProvasController from "../controllers/resultadoProvasController";
 
 const router = express.Router();
 
 router.get("/:id", async (req: Request, res: Response) => {
   try {
-    await ResultadoProvasController.findById(req, res);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-router.get("/", async (req: Request, res: Response) => {
-  try {
-    await ResultadoProvasController.findAll(req, res);
+    await ResultadosProvasController.getProvasById(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -29,16 +20,7 @@ router.get("/escola/:nomeEscola?", async (req: Request, res: Response) => {
   }
 
   try {
-    await ResultadoProvasController.findByEscola(req, res);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-router.post("/", async (req: Request, res: Response) => {
-  try {
-    await ResultadoProvasController.save(req, res);
+    await ResultadosProvasController.getProvasByEscola(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -49,25 +31,36 @@ router.get("/matricula/:matricula", async (req: Request, res: Response) => {
   const { matricula } = req.params;
 
   try {
-    await ResultadoProvasController.findByMatricula(req, res);
+    await ResultadosProvasController.getProvasByMatricula(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-router.get("/aluno/:nome_aluno", async (req: Request, res: Response) => {
+router.get("/nome/:nome", async (req: Request, res: Response) => {
+  const { nome } = req.params;
+
   try {
-    await ResultadoProvasController.findByAluno(req, res);
+    await ResultadosProvasController.getProvasByNome(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-router.get("/nome/:nome_resultado", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
-    await ResultadoProvasController.findByNome(req, res);
+    await ResultadosProvasController.cadastrarProva(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/", async (req: Request, res: Response) => {
+  try {
+    await ResultadosProvasController.getAllProvas(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
