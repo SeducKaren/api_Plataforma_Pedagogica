@@ -146,10 +146,10 @@ class ResultadoProvasModel {
   static async findByNome(nomeResultado: string): Promise<ResultadoProvasModel[]> {
     try {
       const nomeResultadoLowercase = nomeResultado.toLowerCase();
-      const result = await this.pool.query("SELECT * FROM resultados_provas WHERE LOWER(nome_resultado) LIKE $1", [`%${nomeResultadoLowercase}%`]);
+      const result = await this.pool.query("SELECT * FROM resultados_provas WHERE LOWER(nome_aluno) LIKE $1", [`%${nomeResultadoLowercase}%`]);
       return result.rows.map((data: any) => new ResultadoProvasModel(data));
     } catch (error) {
-      console.error("Erro ao buscar resultados de provas por nome do resultado:", error);
+      console.error("Erro ao buscar resultados de provas por nome:", error);
       throw error;
     }
   }
