@@ -74,6 +74,17 @@ class ResultadoProvasController {
       res.status(500).json({ message: "Erro interno do servidor ao salvar o resultado da prova." });
     }
   }
+
+  static async findByNome(req: Request, res: Response): Promise<void> {
+    try {
+      const { nome_resultado } = req.params;
+      const resultados = await ResultadoProvasModel.findByNome(nome_resultado);
+      res.status(200).json(resultados);
+    } catch (error) {
+      console.error("Erro ao buscar resultados de provas por nome do resultado:", error);
+      res.status(500).json({ message: "Erro interno do servidor." });
+    }
+  }
 }
 
 export default ResultadoProvasController;
