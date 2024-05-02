@@ -112,6 +112,17 @@ class ResultadoProvasModel {
     }
   }
 
+  static async findByNome(nome: string): Promise<ResultadoProvasModel[]> {
+    try {
+      const nomeLowercase = nome.toLowerCase();
+      const result = await this.pool.query("SELECT * FROM resultados_provas WHERE LOWER(nome_aluno) LIKE $1", [`%${nomeLowercase}%`]);
+      return result.rows.map((data: any) => new ResultadoProvasModel(data));
+    } catch (error) {
+      console.error("Erro ao buscar resultados de provas por nome:", error);
+      throw error;
+    }
+  }
+
   static async findByEscola(escola: string): Promise<ResultadoProvasModel[]> {
     try {
       const escolaLowercase = escola.toLowerCase();
