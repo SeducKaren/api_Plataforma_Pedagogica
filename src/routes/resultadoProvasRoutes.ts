@@ -50,4 +50,8 @@ router.get("/aluno/:nome_aluno", async (req: Request, res: Response) => {
   await ResultadoProvasController.findByAluno(req, res);
 });
 
+router.get("/nome/:nome_resultado", async (req: Request, res: Response) => {
+  await ResultadoProvasController.findByNome(req, res);
+});
+
 export default router;
