@@ -81,7 +81,7 @@ class ResultadoProvasController {
       const resultados = await ResultadoProvasModel.findByNome(nome_resultado);
       res.status(200).json(resultados);
     } catch (error) {
-      console.error("Erro ao buscar resultados de provas por nome do resultado:", error);
+      console.error("Erro ao buscar resultados de provas por nome:", error);
       res.status(500).json({ message: "Erro interno do servidor." });
     }
   }
