@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 
-class ResultadosProvasModel {
+class ResultadoProvasModel {
   static pool = new Pool({
     ssl: {
       rejectUnauthorized: false,
@@ -9,7 +9,7 @@ class ResultadosProvasModel {
   });
 
   id: number;
-  data: string;
+  data: Date;
   nivel_prova: string;
   escola: string;
   regiao: string;
@@ -26,102 +26,122 @@ class ResultadosProvasModel {
   dificuldade_matematica: string;
 
   constructor(data: any) {
-    this.id = data.id || undefined;
-    this.data = data.data || undefined;
-    this.nivel_prova = data.nivel_prova || undefined;
-    this.escola = data.escola || undefined;
-    this.regiao = data.regiao || undefined;
-    this.quantidade_acertos = data.quantidade_acertos || undefined;
-    this.numero_matricula = data.numero_matricula || undefined;
-    this.nome_aluno = data.nome_aluno || undefined;
-    this.serie = data.serie || undefined;
-    this.turma = data.turma || undefined;
-    this.turno = data.turno || undefined;
-    this.deficiencia = data.deficiencia || undefined;
-    this.respostas_lingua_portuguesa = data.respostas_lingua_portuguesa || undefined;
-    this.respostas_matematica = data.respostas_matematica || undefined;
-    this.dificuldade_lingua_portuguesa = data.dificuldade_lingua_portuguesa || undefined;
-    this.dificuldade_matematica = data.dificuldade_matematica || undefined;
+    this.id = data.id;
+    this.data = new Date(data.data);
+    this.nivel_prova = data.nivel_prova || "";
+    this.escola = data.escola || "";
+    this.regiao = data.regiao || "";
+    this.quantidade_acertos = data.quantidade_acertos || 0;
+    this.numero_matricula = data.numero_matricula || "";
+    this.nome_aluno = data.nome_aluno || "";
+    this.serie = data.serie || "";
+    this.turma = data.turma || "";
+    this.turno = data.turno || "";
+    this.deficiencia = data.deficiencia || "";
+    this.respostas_lingua_portuguesa = data.respostas_lingua_portuguesa || "";
+    this.respostas_matematica = data.respostas_matematica || "";
+    this.dificuldade_lingua_portuguesa = data.dificuldade_lingua_portuguesa || "";
+    this.dificuldade_matematica = data.dificuldade_matematica || "";
   }
 
-  static async findById(id: number): Promise<ResultadosProvasModel | null> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM resultados_provas
-      WHERE id = $1
-    `,
-      [id]
-    );
-    return result.rows.length ? new ResultadosProvasModel(result.rows[0]) : null;
-  }
-
-  static async findBySchoolName(schoolName: string): Promise<ResultadosProvasModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM resultados_provas
-      WHERE escola ILIKE $1
-    `,
-      [`%${schoolName}%`]
-    );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
-  }
-
-  static async findByMatricula(matricula: string): Promise<ResultadosProvasModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM resultados_provas
-      WHERE numero_matricula = $1
-    `,
-      [matricula]
-    );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
-  }
-
-  static async findByNome(nome: string): Promise<ResultadosProvasModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM resultados_provas
-      WHERE nome_aluno ILIKE $1
-    `,
-      [`%${nome}%`]
-    );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
-  }
-
-  static async getAll(): Promise<ResultadosProvasModel[]> {
-    const result = await this.pool.query(
-      `
-      SELECT *
-      FROM resultados_provas
-    `
-    );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
-  }
-
-  static async create(provasData: any): Promise<ResultadosProvasModel> {
-    const { data, nivel_prova, escola, regiao, quantidade_acertos, numero_matricula, nome_aluno, serie, turma, turno, deficiencia, respostas_lingua_portuguesa, respostas_matematica, dificuldade_lingua_portuguesa, dificuldade_matematica } = provasData;
-    const query = `
-      INSERT INTO resultados_provas (data, nivel_prova, escola, regiao, quantidade_acertos, numero_matricula, nome_aluno, serie, turma, turno, deficiencia, respostas_lingua_portuguesa, respostas_matematica, dificuldade_lingua_portuguesa, dificuldade_matematica)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
-      RETURNING *
-    `;
-    const values = [data, nivel_prova, escola, regiao, quantidade_acertos, numero_matricula, nome_aluno, serie, turma, turno, deficiencia, respostas_lingua_portuguesa, respostas_matematica, dificuldade_lingua_portuguesa, dificuldade_matematica];
-
+  static async findAll(): Promise<ResultadoProvasModel[]> {
     try {
-      const result = await this.pool.query(query, values);
-      return new ResultadosProvasModel(result.rows[0]);
+      const result = await this.pool.query("SELECT * FROM resultados_provas");
+      return result.rows.map((data: any) => new ResultadoProvasModel(data));
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Erro ao cadastrar resultado de provas: ${error.message}`);
-      } else {
-        throw new Error("Erro desconhecido ao cadastrar resultado de provas");
-      }
+      console.error("Erro ao buscar todos os resultados de provas:", error);
+      throw error;
+    }
+  }
+
+  async save(): Promise<ResultadoProvasModel> {
+    try {
+      const result = await ResultadoProvasModel.pool.query(
+        `INSERT INTO resultados_provas (
+          data,
+          nivel_prova,
+          escola,
+          regiao,
+          quantidade_acertos,
+          numero_matricula,
+          nome_aluno,
+          serie,
+          turma,
+          turno,
+          deficiencia,
+          respostas_lingua_portuguesa,
+          respostas_matematica,
+          dificuldade_lingua_portuguesa,
+          dificuldade_matematica
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+        RETURNING *`,
+        [
+          this.data,
+          this.nivel_prova,
+          this.escola,
+          this.regiao,
+          this.quantidade_acertos,
+          this.numero_matricula,
+          this.nome_aluno,
+          this.serie,
+          this.turma,
+          this.turno,
+          this.deficiencia,
+          this.respostas_lingua_portuguesa,
+          this.respostas_matematica,
+          this.dificuldade_lingua_portuguesa,
+          this.dificuldade_matematica,
+        ]
+      );
+      return new ResultadoProvasModel(result.rows[0]);
+    } catch (error) {
+      console.error("Erro ao salvar novo resultado da prova:", error);
+      throw error;
+    }
+  }
+
+  static async findByAluno(nomeAluno: string): Promise<ResultadoProvasModel[]> {
+    try {
+      const nomeAlunoLowercase = nomeAluno.toLowerCase();
+      const result = await this.pool.query("SELECT * FROM resultados_provas WHERE LOWER(nome_aluno) LIKE $1", [`%${nomeAlunoLowercase}%`]);
+      return result.rows.map((data: any) => new ResultadoProvasModel(data));
+    } catch (error) {
+      console.error("Erro ao buscar resultados de provas por nome do aluno:", error);
+      throw error;
+    }
+  }
+
+  static async findByEscola(escola: string): Promise<ResultadoProvasModel[]> {
+    try {
+      const escolaLowercase = escola.toLowerCase();
+      const result = await this.pool.query("SELECT * FROM resultados_provas WHERE LOWER(escola) LIKE $1", [`%${escolaLowercase}%`]);
+      return result.rows.map((data: any) => new ResultadoProvasModel(data));
+    } catch (error) {
+      console.error("Erro ao buscar resultados de provas por escola:", error);
+      throw error;
+    }
+  }
+
+  static async findByMatricula(numeroMatricula: string): Promise<ResultadoProvasModel | undefined> {
+    try {
+      const result = await this.pool.query("SELECT * FROM resultados_provas WHERE numero_matricula = $1", [numeroMatricula]);
+      return result.rows[0] ? new ResultadoProvasModel(result.rows[0]) : undefined;
+    } catch (error) {
+      console.error("Erro ao buscar resultado de prova por matrícula:", error);
+      throw error;
+    }
+  }
+
+  static async findById(id: string): Promise<ResultadoProvasModel | undefined> {
+    try {
+      const result = await this.pool.query("SELECT * FROM resultados_provas WHERE id = $1", [id]);
+      return result.rows[0] ? new ResultadoProvasModel(result.rows[0]) : undefined;
+    } catch (error) {
+      console.error("Erro ao buscar resultado de prova por ID:", error);
+      throw error;
     }
   }
 }
 
-export default ResultadosProvasModel;
+export default ResultadoProvasModel;
