@@ -15,11 +15,11 @@ A API da Plataforma Pedagógica Escolar é uma ferramenta desenvolvida para auxi
 
 ## Tecnologias Utilizadas
 
- <div align="center">
-    <img align="center" alt="Dii-NodeJS" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
-    <img align="center" height="30" width="40" alt="Postgresql" src="https://github.com/devicons/devicon/blob/v2.15.1/icons/postgresql/postgresql-original.svg">
-   <img align="center" height="30" width="40" alt="JavaScript" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
-</div>
+- Node.js
+- Express.js
+- PostgreSQL
+- Sequelize ORM
+- Docker para containerização
 
 ## Como Contribuir
 
@@ -35,19 +35,9 @@ Se você deseja contribuir para o desenvolvimento da API da Plataforma Pedagógi
 
 Para mais informações sobre a API da Plataforma Pedagógica Escolar, entre em contato com a equipe de desenvolvimento:
 
-### Equipe:
+Equipe: 
 
-#### Scrum Master: Karen Reis -> 
-- Linkedin: https://www.linkedin.com/in/reiskaren0228/  
-- Email: kreisdemenezes@gmail.com 
-
-#### Desenvolvedora Back-End: Michelle Bessoni -> 
-- Linkedin: https://www.linkedin.com/in/MichelleBessoni  
-- Email: bessoni.dev@gmail.com
-
-#### Desenvolvedora Back-End: Myllena Araújo ->
--  Linkedin: https://www.linkedin.com/in/mylena-oliveira-68340721a/ 
--  Email: mylena08@gmail.com
-  
-#### Desenvolvedor Back-End: Vinicius Oliveira ->
--  Linkedin: https://www.linkedin.com/in/vinicius-oliveira-0abb2316a/
+Scrum Master: Karen Reis - Linkedin: https://www.linkedin.com/in/reiskaren0228/ - Email: kreisdemenezes@gmail.com
+Desenvolvedora Back-End: Michelle Bessoni - Linkedin: www.linkedin.com/in/MichelleBessoni - Email: bessoni.dev@gmail.com
+Desenvolvedora Back-End: Myllena Araújo - Linkedin: Email: mylena08@gmail.com
+Desenvolvedor Back-End: Vinicius Oliveira - Linkedin: Email: 
