@@ -67,27 +67,6 @@ class CadastroModel {
     );
     return result.rows.map((data: any) => new CadastroModel(data));
   }
-
-  static async create(userData: any): Promise<CadastroModel> {
-    const { nome, cpf, escola, contato, email } = userData;
-    const query = `
-      INSERT INTO cadastro (nome, cpf, escola, contato, email)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING *
-    `;
-    const values = [nome, cpf, escola, contato, email];
-
-    try {
-      const result = await this.pool.query(query, values);
-      return new CadastroModel(result.rows[0]);
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Erro ao criar usuário: ${error.message}`);
-      } else {
-        throw new Error("Erro desconhecido ao criar usuário");
-      }
-    }
-  }
 }
 
 export default CadastroModel;

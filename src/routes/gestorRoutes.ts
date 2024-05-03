@@ -23,6 +23,10 @@ router.get('/escola/:escola', async (req, res) => {
   await GestorController.getGestorByEscola(req, res);
 });
 
+router.get('/matricula/:matricula', async (req, res) => {
+  await GestorController.getGestorByMatricula(req, res);
+});
+
 router.post('/', async (req, res) => {
   await GestorController.createGestor(req, res);
 });
@@ -33,6 +37,14 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   await GestorController.deleteGestor(req, res);
+});
+
+router.delete('/cpf/:cpf', async (req, res) => {
+  await GestorController.deleteGestorByCpf(req, res);
+});
+
+router.delete('/matricula/:matricula', async (req, res) => {
+  await GestorController.deleteGestorByMatricula(req, res);
 });
 
 export default router;

@@ -47,6 +47,21 @@ class GestorController {
     }
   }
 
+  static async getGestorByMatricula(req: Request, res: Response): Promise<void> {
+    try {
+      const matricula = req.params.matricula;
+      const gestor = await GestorModel.findByMatricula(matricula);
+      if (gestor) {
+        res.status(200).json(gestor);
+      } else {
+        res.status(404).json({ message: 'Gestor not found' });
+      }
+    } catch (error) {
+      console.error('Error getting gestor by matricula:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
   static async getGestorByEscola(req: Request, res: Response): Promise<void> {
     try {
       const escolaQuery = req.params.escola;
@@ -98,6 +113,28 @@ class GestorController {
       res.status(204).end();
     } catch (error) {
       console.error('Error deleting gestor:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
+  static async deleteGestorByCpf(req: Request, res: Response): Promise<void> {
+    try {
+      const cpf = req.params.cpf;
+      await GestorModel.excluirPorCpf(cpf);
+      res.status(204).end();
+    } catch (error) {
+      console.error('Error deleting gestor by CPF:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
+  static async deleteGestorByMatricula(req: Request, res: Response): Promise<void> {
+    try {
+      const matricula = req.params.matricula;
+      await GestorModel.excluirPorMatricula(matricula);
+      res.status(204).end();
+    } catch (error) {
+      console.error('Error deleting gestor by matricula:', error);
       res.status(500).json({ message: 'Internal server error' });
     }
   }

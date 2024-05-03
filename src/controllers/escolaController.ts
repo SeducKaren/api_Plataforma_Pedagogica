@@ -2,95 +2,83 @@ import { Request, Response } from "express";
 import EscolaModel from "../models/escolaModel";
 
 class EscolaController {
-  static async getEscolaByCodigoInep(req: Request, res: Response): Promise<void> {
-    const codigoInep = req.params.codigoInep;
-
+  static async findByCodigoInep(req: Request, res: Response): Promise<void> {
     try {
+      const { codigoInep } = req.params;
       const escola = await EscolaModel.findByCodigoInep(codigoInep);
       if (escola) {
         res.status(200).json(escola);
       } else {
-        res.status(404).json({ message: "Escola not found" });
+        res.status(404).json({ message: "Escola não encontrada." });
       }
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("Erro ao buscar escola por código INEP:", error);
+      res.status(500).json({ message: "Erro interno do servidor." });
     }
   }
 
-  static async getAllEscolas(req: Request, res: Response): Promise<void> {
+  static async findAll(req: Request, res: Response): Promise<void> {
     try {
       const escolas = await EscolaModel.findAll();
       res.status(200).json(escolas);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("Erro ao buscar todas as escolas:", error);
+      res.status(500).json({ message: "Erro interno do servidor." });
     }
   }
 
-  static async createEscola(req: Request, res: Response): Promise<void> {
-    const escolaData = req.body;
-
+  static async save(req: Request, res: Response): Promise<void> {
     try {
-      const newEscola = new EscolaModel(escolaData);
-      const savedEscola = await newEscola.save();
-      res.status(201).json(savedEscola);
+      const novaEscola = new EscolaModel(req.body);
+      const escolaSalva = await novaEscola.save();
+      res.status(201).json(escolaSalva);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("Erro interno do servidor ao criar a escola:", error);
+      res.status(500).json({ message: "Erro interno do servidor ao criar a escola." });
     }
   }
 
-  static async updateEscola(req: Request, res: Response): Promise<void> {
-    const codigoInep = req.params.codigoInep;
-    const updatedEscolaData = req.body;
-
+  static async updateByCodigoInep(req: Request, res: Response): Promise<void> {
     try {
-      const existingEscola = await EscolaModel.findByCodigoInep(codigoInep);
-
-      if (existingEscola) {
-        const updatedEscola = new EscolaModel({
-          ...existingEscola,
-          ...updatedEscolaData,
-        });
-
-        await updatedEscola.update();
-
-        res.status(200).json(updatedEscola);
+      const { codigoInep } = req.params;
+      const dadosAtualizados = req.body;
+      const escola = await EscolaModel.findByCodigoInep(codigoInep);
+      if (escola) {
+        Object.assign(escola, dadosAtualizados);
+        await escola.update();
+        res.status(200).json(escola);
       } else {
-        res.status(404).json({ message: "Escola not found" });
+        res.status(404).json({ message: "Escola não encontrada." });
       }
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("Erro ao atualizar escola por código INEP:", error);
+      res.status(500).json({ message: "Erro interno do servidor." });
     }
   }
 
-  static async deleteEscola(req: Request, res: Response): Promise<void> {
-    const codigoInep = req.params.codigoInep;
-
+  static async deleteByCodigoInep(req: Request, res: Response): Promise<void> {
     try {
+      const { codigoInep } = req.params;
       await EscolaModel.deleteByCodigoInep(codigoInep);
-      res.status(204).send();
+      res.status(204).end();
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("Erro ao excluir escola por código INEP:", error);
+      res.status(500).json({ message: "Erro interno do servidor." });
     }
   }
 
-  static async getEscolaByNome(req: Request, res: Response): Promise<void> {
-    const nomeEscola = req.params.nomeEscola;
-
+  static async findByNome(req: Request, res: Response): Promise<void> {
     try {
+      const { nomeEscola } = req.params;
       const escola = await EscolaModel.findByNome(nomeEscola);
       if (escola) {
         res.status(200).json(escola);
       } else {
-        res.status(404).json({ message: "Escola not found" });
+        res.status(404).json({ message: "Escola não encontrada." });
       }
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("Erro ao buscar escola por nome:", error);
+      res.status(500).json({ message: "Erro interno do servidor." });
     }
   }
 }

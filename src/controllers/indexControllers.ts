@@ -4,6 +4,6 @@ import EscolaController from "./escolaController";
 import { GabaritoProvasController } from "./gabaritoProvasController";
 import GestorController from "./gestorController";
 import TurmaController from "./turmaController";
-import ResultadosProvasController from "./resultadoProvasController";
+import CadastroController from "./cadastroController"; 
 
-export { AlunoController, CadastroController, EscolaController, GabaritoProvasController, GestorController, TurmaController, ResultadosProvasController }; 
+export { AlunoController, EscolaController, GestorController, TurmaController, CadastroController }; 
