@@ -181,7 +181,7 @@ class AlunoModel {
         ano = $12,
         nome_da_mae = $13,
         nome_do_pai = $14,
-        nome_do_responsavel = $15,
+        nome_do_responsavel = $15
       WHERE id = $16
     `,
       [
