@@ -4,8 +4,8 @@ import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import { PoolClient } from "pg";
 import indexRouter from "../routes/indexRoutes";
+import postgres from "./database";
 
-import pool from "./database";
 //import ResultadosProvasModel from './caminho/do/seu/modelo/resultadosProvasModel';
 
 dotenv.config();
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(async (req: ExtendedRequest, res: Response, next: NextFunction) => {
   console.log('CHAMANDO O BANCO DE DADOS');
   try {
-    const client: PoolClient = await pool.connect();
+    const client: PoolClient = await postgres.connect();
     req.db = client;
     console.log('*** Conexão com o banco de dados estabelecida *** ');
     next();
