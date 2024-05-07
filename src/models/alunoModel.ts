@@ -28,7 +28,7 @@ class AlunoModel {
   nome_do_responsavel: string;
   matricula: string;
   deficiencia?: string;
-  descritor?: string; // Aqui está a correção
+  //descritor?: string; // Aqui está a correção
 
   constructor(data: any) {
     this.id = data.id || undefined;
@@ -47,7 +47,7 @@ class AlunoModel {
     this.nome_do_responsavel = data.nome_do_responsavel || undefined;
     this.matricula = data.matricula || undefined;
     this.deficiencia = data.deficiencia || undefined;
-    this.descritor = data.descritor || undefined; // Aqui está a correção
+    //this.descritor = data.descritor || undefined; // Aqui está a correção
   }
 
   static async findById(id: string): Promise<AlunoModel | undefined> {
@@ -160,7 +160,7 @@ class AlunoModel {
         this.nome_do_responsavel,
         this.matricula,
         this.deficiencia,
-        this.descritor
+        //this.descritor
       ]
     );
     return new AlunoModel(result.rows[0]);
@@ -186,7 +186,7 @@ class AlunoModel {
         nome_do_responsavel = $13,
         matricula = $14,
         deficiencia = $15,
-        descritor = $16
+        //descritor = $16
       WHERE id = $17
     `,
       [
@@ -205,7 +205,7 @@ class AlunoModel {
         this.nome_do_responsavel,
         this.matricula,
         this.deficiencia,
-        this.descritor,
+        //this.descritor,
         this.id,
       ]
     );

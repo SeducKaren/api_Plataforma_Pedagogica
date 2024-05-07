@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 
-class ResultadosProvasModel {
+class ResultadoProvasModel {
   static pool = new Pool({
     ssl: {
       rejectUnauthorized: false,
@@ -44,7 +44,7 @@ class ResultadosProvasModel {
     this.dificuldade_matematica = data.dificuldade_matematica || undefined;
   }
 
-  static async findById(id: number): Promise<ResultadosProvasModel | null> {
+  static async findById(id: number): Promise<ResultadoProvasModel | null> {
     const result = await this.pool.query(
       `
       SELECT *
@@ -53,10 +53,10 @@ class ResultadosProvasModel {
     `,
       [id]
     );
-    return result.rows.length ? new ResultadosProvasModel(result.rows[0]) : null;
+    return result.rows.length ? new ResultadoProvasModel(result.rows[0]) : null;
   }
 
-  static async findBySchoolName(schoolName: string): Promise<ResultadosProvasModel[]> {
+  static async findBySchoolName(schoolName: string): Promise<ResultadoProvasModel[]> {
     const result = await this.pool.query(
       `
       SELECT *
@@ -65,10 +65,10 @@ class ResultadosProvasModel {
     `,
       [`%${schoolName}%`]
     );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
+    return result.rows.map((data: any) => new ResultadoProvasModel(data));
   }
 
-  static async findByMatricula(matricula: string): Promise<ResultadosProvasModel[]> {
+  static async findByMatricula(matricula: string): Promise<ResultadoProvasModel[]> {
     const result = await this.pool.query(
       `
       SELECT *
@@ -77,10 +77,10 @@ class ResultadosProvasModel {
     `,
       [matricula]
     );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
+    return result.rows.map((data: any) => new ResultadoProvasModel(data));
   }
 
-  static async findByNome(nome: string): Promise<ResultadosProvasModel[]> {
+  static async findByNome(nome: string): Promise<ResultadoProvasModel[]> {
     const result = await this.pool.query(
       `
       SELECT *
@@ -89,20 +89,20 @@ class ResultadosProvasModel {
     `,
       [`%${nome}%`]
     );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
+    return result.rows.map((data: any) => new ResultadoProvasModel(data));
   }
 
-  static async getAll(): Promise<ResultadosProvasModel[]> {
+  static async getAll(): Promise<ResultadoProvasModel[]> {
     const result = await this.pool.query(
       `
       SELECT *
       FROM resultados_provas
     `
     );
-    return result.rows.map((data: any) => new ResultadosProvasModel(data));
+    return result.rows.map((data: any) => new ResultadoProvasModel(data));
   }
 
-  static async create(provasData: any): Promise<ResultadosProvasModel> {
+  static async create(provasData: any): Promise<ResultadoProvasModel> {
     const { data, nivel_prova, escola, regiao, quantidade_acertos, numero_matricula, nome_aluno, serie, turma, turno, deficiencia, respostas_lingua_portuguesa, respostas_matematica, dificuldade_lingua_portuguesa, dificuldade_matematica } = provasData;
     const query = `
       INSERT INTO resultados_provas (data, nivel_prova, escola, regiao, quantidade_acertos, numero_matricula, nome_aluno, serie, turma, turno, deficiencia, respostas_lingua_portuguesa, respostas_matematica, dificuldade_lingua_portuguesa, dificuldade_matematica)
@@ -110,10 +110,10 @@ class ResultadosProvasModel {
       RETURNING *
     `;
     const values = [data, nivel_prova, escola, regiao, quantidade_acertos, numero_matricula, nome_aluno, serie, turma, turno, deficiencia, respostas_lingua_portuguesa, respostas_matematica, dificuldade_lingua_portuguesa, dificuldade_matematica];
-
+  
     try {
       const result = await this.pool.query(query, values);
-      return new ResultadosProvasModel(result.rows[0]);
+      return new ResultadoProvasModel(result.rows[0]); // Certifique-se de que os campos retornados correspondam ao modelo
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Erro ao cadastrar resultado de provas: ${error.message}`);
@@ -124,4 +124,4 @@ class ResultadosProvasModel {
   }
 }
 
-export default ResultadosProvasModel;
+export default ResultadoProvasModel;
