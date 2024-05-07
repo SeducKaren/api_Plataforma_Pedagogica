@@ -13,41 +13,39 @@ class AlunoModel {
   }
 
   id: string;
+  matricula: string;
   nome_completo: string;
   cpf: string;
   data_de_nascimento: Date;
   genero: string;
+  deficiencia?: string;
   escola: string;
-  turma: string;
-  serie: string;
   curso: string;
-  ano: number;
+  serie: string;
+  turma: string;
   turno: string;
+  ano: number;
   nome_da_mae: string;
   nome_do_pai: string;
   nome_do_responsavel: string;
-  matricula: string;
-  deficiencia?: string;
-  //descritor?: string; // Aqui está a correção
-
+  
   constructor(data: any) {
     this.id = data.id || undefined;
+    this.matricula = data.matricula || undefined;
     this.nome_completo = data.nome_completo || undefined;
     this.cpf = data.cpf || undefined;
     this.data_de_nascimento = data.data_de_nascimento || undefined;
     this.genero = data.genero || undefined;
+    this.deficiencia = data.deficiencia || undefined;
     this.escola = data.escola || undefined;
-    this.turma = data.turma || undefined;
-    this.serie = data.serie || undefined;
     this.curso = data.curso || undefined;
-    this.ano = data.ano || undefined;
+    this.serie = data.serie || undefined;
+    this.turma = data.turma || undefined;
     this.turno = data.turno || undefined;
+    this.ano = data.ano || undefined;
     this.nome_da_mae = data.nome_da_mae || undefined;
     this.nome_do_pai = data.nome_do_pai || undefined;
     this.nome_do_responsavel = data.nome_do_responsavel || undefined;
-    this.matricula = data.matricula || undefined;
-    this.deficiencia = data.deficiencia || undefined;
-    //this.descritor = data.descritor || undefined; // Aqui está a correção
   }
 
   static async findById(id: string): Promise<AlunoModel | undefined> {
@@ -124,43 +122,41 @@ class AlunoModel {
     const result = await AlunoModel.pool.query(
       `
       INSERT INTO alunos (
+        matricula,
         nome_completo,
         cpf,
         data_de_nascimento,
         genero,
+        deficiencia,
         escola,
+        curso,
         turma,
         serie,
-        curso,
-        ano,
         turno,
+        ano,
         nome_da_mae,
         nome_do_pai,
-        nome_do_responsavel,
-        matricula,
-        deficiencia,
-        descritor
+        nome_do_responsavel
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15 )
       RETURNING *
     `,
       [
+        this.matricula,
         this.nome_completo,
         this.cpf,
         this.data_de_nascimento,
         this.genero,
+        this.deficiencia,
         this.escola,
+        this.curso,
         this.turma,
         this.serie,
-        this.curso,
-        this.ano,
         this.turno,
+        this.ano,
         this.nome_da_mae,
         this.nome_do_pai,
         this.nome_do_responsavel,
-        this.matricula,
-        this.deficiencia,
-        //this.descritor
       ]
     );
     return new AlunoModel(result.rows[0]);
@@ -171,13 +167,13 @@ class AlunoModel {
       `
       UPDATE alunos
       SET
-        nome_completo = $1,
-        cpf = $2,
-        data_de_nascimento = $3,
-        genero = $4,
-        escola = $5,
-        turma = $6,
-        serie = $7,
+        matricula = $1,
+        nome_completo = $2,
+        cpf = $3,
+        data_de_nascimento = $4,
+        genero = $5,
+        deficiencia = $6,
+        escola = $7,
         curso = $8,
         ano = $9,
         turno = $10,
@@ -186,26 +182,26 @@ class AlunoModel {
         nome_do_responsavel = $13,
         matricula = $14,
         deficiencia = $15,
-        //descritor = $16
-      WHERE id = $17
+      WHERE id = $16
     `,
       [
+        this.matricula,
         this.nome_completo,
         this.cpf,
         this.data_de_nascimento,
         this.genero,
+        this.deficiencia,
         this.escola,
+        this.curso,
         this.turma,
         this.serie,
-        this.curso,
-        this.ano,
         this.turno,
+        this.ano,
         this.nome_da_mae,
         this.nome_do_pai,
         this.nome_do_responsavel,
         this.matricula,
         this.deficiencia,
-        //this.descritor,
         this.id,
       ]
     );
