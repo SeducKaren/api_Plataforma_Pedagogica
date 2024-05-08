@@ -12,13 +12,13 @@ class AlunoModel {
     });
   }
 
-  id: string;
+  id?: string;
   matricula: string;
   nome_completo: string;
   cpf: string;
   data_de_nascimento: Date;
   genero: string;
-  deficiencia?: string;
+  deficiencia: string[]; // Alterado para ser um array de strings
   escola: string;
   curso: string;
   serie: string;
@@ -36,7 +36,7 @@ class AlunoModel {
     this.cpf = data.cpf || undefined;
     this.data_de_nascimento = data.data_de_nascimento || undefined;
     this.genero = data.genero || undefined;
-    this.deficiencia = data.deficiencia || undefined;
+    this.deficiencia = data.deficiencia || []; // Definindo como um array vazio por padrão
     this.escola = data.escola || undefined;
     this.curso = data.curso || undefined;
     this.serie = data.serie || undefined;
@@ -147,7 +147,7 @@ class AlunoModel {
         this.cpf,
         this.data_de_nascimento,
         this.genero,
-        this.deficiencia,
+        JSON.stringify(this.deficiencia),// Convertendo o array de deficiências para uma string JSON
         this.escola,
         this.curso,
         this.turma,
@@ -190,7 +190,7 @@ class AlunoModel {
         this.cpf,
         this.data_de_nascimento,
         this.genero,
-        this.deficiencia,
+        JSON.stringify(this.deficiencia), // Convertendo o array de deficiências para uma string JSON
         this.escola,
         this.curso,
         this.turma,
