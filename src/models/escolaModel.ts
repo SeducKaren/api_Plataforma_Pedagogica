@@ -67,56 +67,56 @@ class EscolaModel {
   }
 
   async save(): Promise<EscolaModel> {
-    try {
-      const result = await EscolaModel.pool.query(
-        `INSERT INTO escola (
-          codigo_inep,
-          escola,
-          sigla,
-          zona_de_localidade,
-          cnpj,
-          cep,
-          endereco,
-          numero,
-          complemento,
-          municipio,
-          estado,
-          telefone1,
-          email,
-          turnos,
-          curso,
-          serie,
-          quantidade_de_aluno
-        )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-        RETURNING *`,
-        [
-          this.codigo_inep,
-          this.escola,
-          this.sigla,
-          this.zona_de_localidade,
-          this.cnpj,
-          this.cep,
-          this.endereco,
-          this.numero,
-          this.complemento,
-          this.municipio,
-          this.estado,
-          this.telefone1,
-          this.email,
-          this.turnos,
-          this.curso,
-          this.serie,
-          this.quantidade_de_aluno,
-        ]
-      );
-      return new EscolaModel(result.rows[0]);
-    } catch (error) {
-      console.error("Erro ao salvar nova escola:", error);
-      throw error;
-    }
+  try {
+    const result = await EscolaModel.pool.query(
+      `INSERT INTO escola (
+        codigo_inep,
+        escola,
+        sigla,
+        zona_de_localidade,
+        cnpj,
+        cep,
+        endereco,
+        numero,
+        complemento,
+        municipio,
+        estado,
+        telefone1,
+        email,
+        turnos,
+        curso,
+        serie,
+        quantidade_de_aluno
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+      RETURNING *`,
+      [
+        this.codigo_inep,
+        this.escola,
+        this.sigla,
+        this.zona_de_localidade,
+        this.cnpj,
+        this.cep,
+        this.endereco,
+        this.numero,
+        this.complemento,
+        this.municipio,
+        this.estado,
+        this.telefone1,
+        this.email,
+        this.turnos,
+        this.curso,
+        this.serie,
+        this.quantidade_de_aluno, // Adicionando o valor de quantidade_de_aluno
+      ]
+    );
+    return new EscolaModel(result.rows[0]);
+  } catch (error) {
+    console.error("Erro ao salvar nova escola:", error);
+    throw error;
   }
-  
+}
+ 
   async update(): Promise<void> {
     try {
       await EscolaModel.pool.query(
