@@ -88,7 +88,7 @@ class EscolaModel {
         serie,
         quantidade_de_aluno
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
       RETURNING *`,
       [
         this.codigo_inep,
@@ -122,23 +122,23 @@ class EscolaModel {
       await EscolaModel.pool.query(
         `UPDATE escola
         SET
-          escola = $1,
-          sigla = $2,
-          zona_de_localidade = $3,
-          cnpj = $4,
-          cep = $5,
-          endereco = $6,
-          numero = $7,
-          complemento = $8,
-          municipio = $9,
-          estado = $10,
-          telefone1 = $11,
-          email = $12,
-          turnos = $13,
-          curso = $14,
-          serie = $15,
-          quantidade_de_aluno = $16
-        WHERE codigo_inep = $17`,
+          escola = $2,
+          sigla = $3,
+          zona_de_localidade = $4,
+          cnpj = $5,
+          cep = $6,
+          endereco = $7,
+          numero = $8,
+          complemento = $9,
+          municipio = $10,
+          estado = $11,
+          telefone1 = $12,
+          email = $13,
+          turnos = $14,
+          curso = $15,
+          serie = $16,
+          quantidade_de_aluno = $17
+        WHERE codigo_inep = $1`,
         [
           this.escola,
           this.sigla,
