@@ -1,6 +1,7 @@
-import express from "express";
-import pkg from "pg";
 
+var express = require("express");
+var pgPromiseModule = require("pg-promise");
+var pgPromise = pgPromiseModule();
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -11,16 +12,6 @@ app.use(express.json());
 const { Pool } = pkg;
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-app.get("/", async (req, res) => {
-  try {
-    // Fetch books from your database using the postgres connection
-    const { rows } = await pool.query("SELECT * FROM books_to_read;");
-    res.json(rows);
-  } catch (error) {
-    console.error("Failed to fetch books", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 
 // Start the server
 app.listen(port, () => {
