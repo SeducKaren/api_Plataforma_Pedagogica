@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "main": "src/server/indexServer.ts",
+    "type": "module",
     "scripts": {
         "start-teste-conexao": "ts-node -r tsconfig-paths/register src/server/testeConexao.ts",
         "start": "ts-node -r tsconfig-paths/register src/server/app.ts",
