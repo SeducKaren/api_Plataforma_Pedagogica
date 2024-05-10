@@ -1,28 +1,78 @@
-import express from "express";
-import pkg from "pg";
+import bodyParser from "body-parser";
+import cors from "cors";
+import dotenv from "dotenv";
+import express, { NextFunction, Request, Response } from "express";
+import { PoolClient } from "pg";
+import indexRouter from "../routes/indexRoutes";
+import pool from "./database";
+//import ResultadosProvasModel from './caminho/do/seu/modelo/resultadosProvasModel';
+
+dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-// Parse JSON bodies for this app
-app.use(express.json());
+app.get("/", (req: Request, res: Response) => {
+  res.send("API de exemplo para o curso de Node.js");
+}
+);
 
-// Create a new pool using your Neon database connection string
-const { Pool } = pkg;
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+interface ExtendedRequest extends Request {
+  db?: PoolClient;
+}
 
-app.get("/", async (req, res) => {
+// Middlewares
+app.use(
+  cors({
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Conexão com o banco de dados
+app.use(async (req: ExtendedRequest, res: Response, next: NextFunction) => {
+  console.log('CHAMANDO O BANCO DE DADOS');
   try {
-    // Fetch books from your database using the postgres connection
-    const { rows } = await pool.query("SELECT * FROM books_to_read;");
-    res.json(rows);
+    const client: PoolClient = await pool.connect();
+    req.db = client;
+    console.log('*** Conexão com o banco de dados estabelecida *** ');
+    next();
   } catch (error) {
-    console.error("Failed to fetch books", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("*** Erro ao conectar ao banco de dados ***", error);
+    res.status(500).json({ error: "*** Erro Interno no Servidor ***" });
   }
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+// Exemplo de middleware
+
+// Rotas
+app.use("/api", indexRouter);
+
+// Liberação da conexão após a conclusão da solicitação
+app.use((req: ExtendedRequest, res: Response, next: NextFunction) => {
+  const db = req.db;
+  if (db) {
+    db.release();
+  }
+  next();
 });
+
+// Tratamento de erros
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res
+    .status(500)
+    .send("*** Erro Interno no Servidor! Por favor Verifique seu Servidor ***");
+});
+
+// Configuração do servidor
+const PORT = process.env.PORT;
+
+  app.listen(PORT, () => {
+    console.log(`+++ O servidor está rodando na porta ${PORT} +++`);
+    console.log(`+++ O servidor está acessível em http://localhost:${PORT} +++`);
+  }
+
+);
