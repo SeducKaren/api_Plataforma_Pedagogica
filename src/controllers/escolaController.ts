@@ -27,14 +27,27 @@ class EscolaController {
     }
   }
 
-  static async save(req: Request, res: Response): Promise<void> {
+  static async createEscola(req: Request, res: Response): Promise<void> {
+    const escolaData = req.body;
+
     try {
-      const novaEscola = new EscolaModel(req.body);
-      const escolaSalva = await novaEscola.save();
-      res.status(201).json(escolaSalva);
+      const newEscola = new EscolaModel(escolaData);
+      const savedEscola = await newEscola.save();
+      res.status(201).json(savedEscola);
     } catch (error) {
-      console.error("Erro interno do servidor ao criar a escola:", error);
-      res.status(500).json({ message: "Erro interno do servidor ao criar a escola." });
+      console.error(error);
+
+      if (error instanceof Error) {
+        if (error.message.includes("validation")) {
+          res.status(400).json({ message: "Erro de validação: " + error.message });
+        } else if (error.message.includes("duplicate key value")) {
+          res.status(409).json({ message: "Conflito de dados: Já existe uma escola com esses dados" });
+        } else {
+          res.status(500).json({ message: "Erro ao criar escola: " + error.message });
+        }
+      } else {
+        res.status(500).json({ message: "Erro desconhecido ao criar escola" });
+      }
     }
   }
 

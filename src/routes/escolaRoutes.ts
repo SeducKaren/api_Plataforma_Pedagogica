@@ -15,7 +15,7 @@ router.get("/codigoInep/:codigoInep", async (req: Request, res: Response) => {
 
 // Create new escola
 router.post("/", async (req: Request, res: Response) => {
-  await EscolaController.save(req, res);
+  await EscolaController.createEscola(req, res);
 });
 
 // Update escola by Codigo INEP
